@@ -2,6 +2,8 @@ package com.example.ui;
 
 import com.example.model.Department;
 import com.example.service.DepartmentService;
+import com.example.PaginationUtil;
+
 
 import java.util.List;
 import java.util.Scanner;
@@ -59,13 +61,7 @@ public class DepartmentUI {
 
     private void viewAllDepartments() {
         List<Department> departments = departmentService.getAllDepartments();
-        if (departments.isEmpty()) {
-            System.out.println("Нет департаментов в базе данных.");
-        } else {
-            for (Department department : departments) {
-                System.out.println(department);
-            }
-        }
+        PaginationUtil.paginateAndDisplay(departments, "=== Список департаментов ===", scanner);
     }
 
     private void viewDepartmentById() {

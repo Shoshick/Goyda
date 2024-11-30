@@ -2,6 +2,8 @@ package com.example.ui;
 
 import com.example.model.Rank;
 import com.example.service.RankService;
+import com.example.PaginationUtil;
+
 
 import java.util.List;
 import java.util.Scanner;
@@ -59,13 +61,7 @@ public class RankUI {
 
     private void viewAllRanks() {
         List<Rank> ranks = rankService.getAllRanks();
-        if (ranks.isEmpty()) {
-            System.out.println("Нет званий в базе данных.");
-        } else {
-            for (Rank rank : ranks) {
-                System.out.println(rank);
-            }
-        }
+        PaginationUtil.paginateAndDisplay(ranks, "=== Список званий ===", scanner);
     }
 
     private void viewRankById() {

@@ -2,6 +2,8 @@ package com.example.ui;
 
 import com.example.model.Degree;
 import com.example.service.DegreeService;
+import com.example.PaginationUtil;
+
 
 import java.util.List;
 import java.util.Scanner;
@@ -59,14 +61,9 @@ public class DegreeUI {
 
     private void viewAllDegrees() {
         List<Degree> degrees = degreeService.getAllDegrees();
-        if (degrees.isEmpty()) {
-            System.out.println("Нет степеней в базе данных.");
-        } else {
-            for (Degree degree : degrees) {
-                System.out.println(degree);
-            }
-        }
+        PaginationUtil.paginateAndDisplay(degrees, "=== Список степеней ===", scanner);
     }
+    
 
     private void viewDegreeById() {
         System.out.print("Введите ID степени: ");

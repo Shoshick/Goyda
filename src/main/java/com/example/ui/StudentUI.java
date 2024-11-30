@@ -4,6 +4,8 @@ import com.example.model.Student;
 import com.example.model.Faculty;
 import com.example.model.Group;
 import com.example.service.StudentService;
+import com.example.PaginationUtil;
+
 
 import java.util.List;
 import java.util.Scanner;
@@ -67,16 +69,8 @@ public class StudentUI {
     }
 
     private void viewAllStudents() {
-        try {
-            List<Student> students = studentService.getAllStudents();
-            if (students.isEmpty()) {
-                System.out.println("Нет студентов в базе данных.");
-            } else {
-                students.forEach(System.out::println);
-            }
-        } catch (Exception e) {
-            System.out.println("Ошибка при просмотре всех студентов: " + e.getMessage());
-        }
+        List<Student> students = studentService.getAllStudents();
+        PaginationUtil.paginateAndDisplay(students, "=== Список студентов ===", scanner);    
     }
 
     private void viewStudentByGradeBook() {

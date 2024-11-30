@@ -2,6 +2,8 @@ package com.example.ui;
 
 import com.example.model.Faculty;
 import com.example.service.FacultyService;
+import com.example.PaginationUtil;
+
 
 import java.util.List;
 import java.util.Scanner;
@@ -59,13 +61,7 @@ public class FacultyUI {
 
     private void viewAllFaculties() {
         List<Faculty> faculties = facultyService.getAllFaculties();
-        if (faculties.isEmpty()) {
-            System.out.println("Нет факультетов в базе данных.");
-        } else {
-            for (Faculty faculty : faculties) {
-                System.out.println(faculty);
-            }
-        }
+        PaginationUtil.paginateAndDisplay(faculties, "=== Список дипломных работ ===", scanner);
     }
 
     private void viewFacultyById() {

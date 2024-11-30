@@ -2,6 +2,8 @@ package com.example.ui;
 
 import com.example.model.Group;
 import com.example.service.GroupService;
+import com.example.PaginationUtil;
+
 
 import java.util.List;
 import java.util.Scanner;
@@ -57,15 +59,11 @@ public class GroupUI {
         }
     }
 
+    
+
     private void viewAllGroups() {
         List<Group> groups = groupService.getAllGroups();
-        if (groups.isEmpty()) {
-            System.out.println("Нет групп в базе данных.");
-        } else {
-            for (Group group : groups) {
-                System.out.println(group);
-            }
-        }
+        PaginationUtil.paginateAndDisplay(groups, "=== Список всех групп ===", scanner);
     }
 
     private void viewGroupById() {

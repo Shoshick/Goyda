@@ -5,15 +5,19 @@ import com.example.model.Degree;
 import com.example.model.Rank;
 import com.example.model.Department;
 import com.example.service.TeacherService;
+import com.example.PaginationUtil;
+
 
 import java.util.List;
 import java.util.Scanner;
 
 public class TeacherUI {
     private final TeacherService teacherService;
+    private final Scanner scanner;
 
     public TeacherUI(TeacherService teacherService) {
         this.teacherService = teacherService;
+        this.scanner = new Scanner(System.in);
     }
 
     public void showMenu() {
@@ -67,10 +71,7 @@ public class TeacherUI {
 
     private void displayAllTeachers() {
         List<Teacher> teachers = teacherService.getAllTeachers();
-        System.out.println("=== Список учителей ===");
-        for (Teacher teacher : teachers) {
-            System.out.println(teacher);
-        }
+        PaginationUtil.paginateAndDisplay(teachers, "=== Список учителей ===", scanner);
     }
 
     private void addTeacher(Scanner scanner) {

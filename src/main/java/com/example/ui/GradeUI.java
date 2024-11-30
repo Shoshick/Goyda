@@ -3,6 +3,8 @@ package com.example.ui;
 import com.example.model.Grade;
 import com.example.service.GradeService;
 import com.example.model.Student;
+import com.example.PaginationUtil;
+
 
 import java.util.List;
 import java.util.Scanner;
@@ -59,18 +61,11 @@ public class GradeUI {
         }
     }
 
-    private void viewAllGrades() {
-        try {
-            List<Grade> grades = gradeService.getAllGrades();
-            if (grades.isEmpty()) {
-                System.out.println("Нет оценок в базе данных.");
-            } else {
-                grades.forEach(System.out::println);
-            }
-        } catch (Exception e) {
-            System.out.println("Ошибка при просмотре всех оценок: " + e.getMessage());
-        }
+    private void viewAllGrades() {    
+        List<Grade> grades = gradeService.getAllGrades();
+        PaginationUtil.paginateAndDisplay(grades, "=== Список оценок ===", scanner);
     }
+
 
     private void viewGradeByGradeBook() {
         System.out.print("Введите номер зачетной книжки: ");

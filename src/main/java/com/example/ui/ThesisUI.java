@@ -2,6 +2,8 @@ package com.example.ui;
 
 import com.example.model.Thesis;
 import com.example.service.ThesisService;
+import com.example.PaginationUtil;
+
 
 import java.util.List;
 import java.util.Scanner;
@@ -9,9 +11,11 @@ import java.util.Scanner;
 public class ThesisUI {
 
     private final ThesisService thesisService;
+    private final Scanner scanner;
 
     public ThesisUI(ThesisService thesisService) {
         this.thesisService = thesisService;
+        this.scanner = new Scanner(System.in);
     }
 
     public void showMenu() {
@@ -58,10 +62,8 @@ public class ThesisUI {
 
     private void displayAllTheses() {
         List<Thesis> theses = thesisService.getAllTheses();
-        System.out.println("=== Список дипломных работ ===");
-        for (Thesis thesis : theses) {
-            System.out.println(thesis);
-        }
+        PaginationUtil.paginateAndDisplay(theses, "=== Список работ ===", scanner);
+
     }
 
     private void addThesis(Scanner scanner) {
