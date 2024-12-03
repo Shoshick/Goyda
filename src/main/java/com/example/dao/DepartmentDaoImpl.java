@@ -70,7 +70,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
     @Override
     public List<Department> search(String searchTerm) {
         try (Session session = sessionFactory.openSession()) {
-            String hql = "FROM Department d WHERE d.name LIKE :searchTerm";
+            String hql = "FROM Department d WHERE d.department LIKE :searchTerm";
             Query<Department> query = session.createQuery(hql, Department.class);
             query.setParameter("searchTerm", "%" + searchTerm + "%"); // Добавляем поддержку частичного поиска
             return query.list();

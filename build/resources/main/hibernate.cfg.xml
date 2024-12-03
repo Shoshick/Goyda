@@ -16,11 +16,10 @@
        <property name="hibernate.c3p0.max_statements">50</property>
        <property name="hibernate.c3p0.idle_test_period">3000</property>
 
+       <property name="hibernate.connection.release_mode">auto</property>
+       
        <!-- Enable Hibernate's automatic session context management -->
        <property name="hibernate.current_session_context_class">thread</property>
-
-       <!-- Echo all executed SQL to stdout -->
-       <property name="hibernate.show_sql">true</property>
 
        <!-- Drop and re-create the database schema on startup -->
        <property name="hibernate.hbm2ddl.auto">validate</property>
@@ -33,6 +32,9 @@
        <mapping class="com.example.model.Group"/>
        <mapping class="com.example.model.Rank"/>
        <mapping class="com.example.model.Student"/>
+       <mapping class="com.example.model.Grade"/>
+       <mapping class="com.example.model.Teacher"/>
+       <mapping class="com.example.model.Thesis"/>
 
 
    </session-factory>

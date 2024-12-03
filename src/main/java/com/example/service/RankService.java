@@ -3,44 +3,66 @@ package com.example.service;
 import com.example.dao.RankDao;
 import com.example.dao.RankDaoImpl;
 import com.example.model.Rank;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 
 public class RankService {
+
     private final RankDao rankDao;
+    private final SessionFactory sessionFactory;
 
     public RankService(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
         this.rankDao = new RankDaoImpl(sessionFactory);
     }
 
-    // Получение всех рангов
     public List<Rank> getAllRanks() {
-        return rankDao.getAll();
+        try (Session session = sessionFactory.openSession()) {
+            return rankDao.getAll();
+        } catch (Exception e) {
+            throw new RuntimeException("Ошибка при получении списка рангов", e);
+        }
     }
 
-    // Получение ранга по ID
     public Rank getRankById(Long id) {
-        return rankDao.getById(id);
+        try (Session session = sessionFactory.openSession()) {
+            return rankDao.getById(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Ошибка при получении ранга с ID: " + id, e);
+        }
     }
 
-    // Добавление нового ранга
     public void addRank(Rank rank) {
-        rankDao.save(rank);
+        try (Session session = sessionFactory.openSession()) {
+            rankDao.save(rank);
+        } catch (Exception e) {
+            throw new RuntimeException("Ошибка при добавлении ранга: " + rank, e);
+        }
     }
 
-    // Обновление ранга
     public void updateRank(Rank rank) {
-        rankDao.update(rank);
+        try (Session session = sessionFactory.openSession()) {
+            rankDao.update(rank);
+        } catch (Exception e) {
+            throw new RuntimeException("Ошибка при обновлении ранга: " + rank, e);
+        }
     }
 
-    // Удаление ранга
     public void deleteRank(Long id) {
-        rankDao.delete(id);
+        try (Session session = sessionFactory.openSession()) {
+            rankDao.delete(id);
+        } catch (Exception e) {
+            throw new RuntimeException("Ошибка при удалении ранга с ID: " + id, e);
+        }
     }
 
-    // Поиск рангов по запросу
     public List<Rank> searchRanks(String query) {
-        return rankDao.search(query);
+        try (Session session = sessionFactory.openSession()) {
+            return rankDao.search(query);
+        } catch (Exception e) {
+            throw new RuntimeException("Ошибка при поиске рангов по запросу: " + query, e);
+        }
     }
 }

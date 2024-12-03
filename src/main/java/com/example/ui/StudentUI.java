@@ -4,8 +4,8 @@ import com.example.model.Student;
 import com.example.model.Faculty;
 import com.example.model.Group;
 import com.example.service.StudentService;
-import com.example.PaginationUtil;
-
+import com.example.util.ConsoleUtils;
+import com.example.util.PaginationUtil;
 
 import java.util.List;
 import java.util.Scanner;
@@ -22,20 +22,15 @@ public class StudentUI {
 
     public void showMenu() {
         while (true) {
+            ConsoleUtils.clearScreen();
             System.out.println("1. Просмотр всех студентов");
             System.out.println("2. Получить студента по зачетной книжке");
             System.out.println("3. Добавить нового студента");
             System.out.println("4. Обновить студента");
             System.out.println("5. Удалить студента");
             System.out.println("6. Поиск студентов");
-            System.out.println("7. Выход");
-
-            System.out.print("Выберите действие: ");
-            if (!scanner.hasNextInt()) {
-                System.out.println("Введите корректное число!");
-                scanner.nextLine();
-                continue;
-            }
+            System.out.println("0. Выход");
+            System.out.print("Ваш выбор: ");
 
             int choice = scanner.nextInt();
             scanner.nextLine(); 
@@ -59,7 +54,7 @@ public class StudentUI {
                 case 6:
                     searchStudent();
                     break;
-                case 7:
+                case 0:
                     System.out.println("Выход...");
                     return;
                 default:
@@ -82,9 +77,11 @@ public class StudentUI {
                 System.out.println(student);
             } else {
                 System.out.println("Студент с таким номером зачетной книжки не найден.");
+                ConsoleUtils.waitForEnter();
             }
         } catch (Exception e) {
             System.out.println("Ошибка при получении студента: " + e.getMessage());
+            ConsoleUtils.waitForEnter();
         }
     }
 
@@ -115,8 +112,10 @@ public class StudentUI {
 
             studentService.addStudent(student);
             System.out.println("Студент добавлен.");
+            ConsoleUtils.waitForEnter();
         } catch (Exception e) {
             System.out.println("Ошибка при добавлении студента: " + e.getMessage());
+            ConsoleUtils.waitForEnter();
         }
     }
 
@@ -131,11 +130,14 @@ public class StudentUI {
                 student.setFullName(fullName);
                 studentService.updateStudent(student);
                 System.out.println("Студент обновлен.");
+                ConsoleUtils.waitForEnter();
             } else {
                 System.out.println("Студент с таким номером зачетной книжки не найден.");
+                ConsoleUtils.waitForEnter();
             }
         } catch (Exception e) {
             System.out.println("Ошибка при обновлении студента: " + e.getMessage());
+            ConsoleUtils.waitForEnter();
         }
     }
 
@@ -145,8 +147,10 @@ public class StudentUI {
         try {
             studentService.deleteStudent(gradeBook);
             System.out.println("Студент удален.");
+            ConsoleUtils.waitForEnter();
         } catch (Exception e) {
             System.out.println("Ошибка при удалении студента: " + e.getMessage());
+            ConsoleUtils.waitForEnter();
         }
     }
 
@@ -157,11 +161,14 @@ public class StudentUI {
             List<Student> students = studentService.searchStudents(searchTerm);
             if (students.isEmpty()) {
                 System.out.println("Студенты не найдены по запросу: " + searchTerm);
+                ConsoleUtils.waitForEnter();
             } else {
                 students.forEach(System.out::println);
+                ConsoleUtils.waitForEnter();
             }
         } catch (Exception e) {
             System.out.println("Ошибка при поиске студентов: " + e.getMessage());
+            ConsoleUtils.waitForEnter();
         }
     }
 

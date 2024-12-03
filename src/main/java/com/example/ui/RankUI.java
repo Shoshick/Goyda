@@ -2,7 +2,8 @@ package com.example.ui;
 
 import com.example.model.Rank;
 import com.example.service.RankService;
-import com.example.PaginationUtil;
+import com.example.util.ConsoleUtils;
+import com.example.util.PaginationUtil;
 
 
 import java.util.List;
@@ -20,13 +21,15 @@ public class RankUI {
 
     public void showMenu() {
         while (true) {
+            ConsoleUtils.clearScreen();
             System.out.println("1. Просмотр всех званий");
             System.out.println("2. Получить звание по ID");
             System.out.println("3. Добавить новое звание");
             System.out.println("4. Обновить звание");
             System.out.println("5. Удалить звание");
             System.out.println("6. Поиск звания");
-            System.out.println("7. Выход");
+            System.out.println("0. Выход");
+            System.out.print("Ваш выбор: ");
 
             int choice = scanner.nextInt();
             scanner.nextLine(); // Очищаем буфер после nextInt
@@ -50,7 +53,7 @@ public class RankUI {
                 case 6:
                     searchRank();
                     break;
-                case 7:
+                case 0:
                     System.out.println("Выход...");
                     return;  // Выход из метода showMenu()
                 default:
@@ -71,8 +74,10 @@ public class RankUI {
         Rank rank = rankService.getRankById(id);
         if (rank != null) {
             System.out.println(rank);
+            ConsoleUtils.waitForEnter();
         } else {
             System.out.println("Звание с таким ID не найдено.");
+            ConsoleUtils.waitForEnter();
         }
     }
 
@@ -119,6 +124,7 @@ public class RankUI {
             for (Rank rank : ranks) {
                 System.out.println(rank);
             }
+            ConsoleUtils.waitForEnter();
         }
     }
 }

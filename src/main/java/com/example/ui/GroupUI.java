@@ -2,8 +2,8 @@ package com.example.ui;
 
 import com.example.model.Group;
 import com.example.service.GroupService;
-import com.example.PaginationUtil;
-
+import com.example.util.ConsoleUtils;
+import com.example.util.PaginationUtil;
 
 import java.util.List;
 import java.util.Scanner;
@@ -20,13 +20,15 @@ public class GroupUI {
 
     public void showMenu() {
         while (true) {
+            ConsoleUtils.clearScreen();
             System.out.println("1. Просмотр всех групп");
             System.out.println("2. Получить группу по ID");
             System.out.println("3. Добавить новую группу");
             System.out.println("4. Обновить группу");
             System.out.println("5. Удалить группу");
             System.out.println("6. Поиск группы");
-            System.out.println("7. Выход");
+            System.out.println("0. Выход");
+            System.out.print("Ваш выбор: ");
 
             int choice = scanner.nextInt();
             scanner.nextLine(); 
@@ -50,7 +52,7 @@ public class GroupUI {
                 case 6:
                     searchGroup();
                     break;
-                case 7:
+                case 0:
                     System.out.println("Выход...");
                     return;
                 default:
@@ -73,8 +75,10 @@ public class GroupUI {
         Group group = groupService.getGroupById(id);
         if (group != null) {
             System.out.println(group);
+            ConsoleUtils.waitForEnter();
         } else {
             System.out.println("Группа с таким ID не найдена.");
+            ConsoleUtils.waitForEnter();
         }
     }
 
@@ -85,6 +89,7 @@ public class GroupUI {
         group.setGroupName(groupName);
         groupService.addGroup(group);
         System.out.println("Группа добавлена.");
+        ConsoleUtils.waitForEnter();
     }
 
     private void updateGroup() {
@@ -98,8 +103,10 @@ public class GroupUI {
             group.setGroupName(groupName);
             groupService.updateGroup(group);
             System.out.println("Группа обновлена.");
+            ConsoleUtils.waitForEnter();
         } else {
             System.out.println("Группа с таким ID не найдена.");
+            ConsoleUtils.waitForEnter();
         }
     }
 
@@ -109,6 +116,7 @@ public class GroupUI {
         scanner.nextLine(); 
         groupService.deleteGroup(id);
         System.out.println("Группа удалена.");
+        ConsoleUtils.waitForEnter();
     }
 
     private void searchGroup() {
@@ -117,10 +125,12 @@ public class GroupUI {
         List<Group> groups = groupService.searchGroups(query);
         if (groups.isEmpty()) {
             System.out.println("Группы по данному запросу не найдены.");
+            ConsoleUtils.waitForEnter();
         } else {
             for (Group group : groups) {
                 System.out.println(group);
             }
+            ConsoleUtils.waitForEnter();
         }
     }
 }

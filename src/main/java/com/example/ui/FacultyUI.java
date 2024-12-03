@@ -2,7 +2,8 @@ package com.example.ui;
 
 import com.example.model.Faculty;
 import com.example.service.FacultyService;
-import com.example.PaginationUtil;
+import com.example.util.ConsoleUtils;
+import com.example.util.PaginationUtil;
 
 
 import java.util.List;
@@ -20,13 +21,15 @@ public class FacultyUI {
 
     public void showMenu() {
         while (true) {
+            ConsoleUtils.clearScreen();
             System.out.println("1. Просмотр всех факультетов");
             System.out.println("2. Получить факультет по ID");
             System.out.println("3. Добавить новый факультет");
             System.out.println("4. Обновить факультет");
             System.out.println("5. Удалить факультет");
             System.out.println("6. Поиск факультета");
-            System.out.println("7. Выход");
+            System.out.println("0. Выход");
+            System.out.print("Ваш выбор: ");
 
             int choice = scanner.nextInt();
             scanner.nextLine();
@@ -50,7 +53,7 @@ public class FacultyUI {
                 case 6:
                     searchFaculty();
                     break;
-                case 7:
+                case 0:
                     System.out.println("Выход...");
                     return;
                 default:
@@ -70,6 +73,7 @@ public class FacultyUI {
         scanner.nextLine();
         Faculty faculty = facultyService.getFacultyById(id);
         System.out.println(faculty != null ? faculty : "Факультет не найден.");
+        ConsoleUtils.waitForEnter();
     }
 
     private void addFaculty() {
@@ -78,6 +82,7 @@ public class FacultyUI {
         Faculty faculty = new Faculty(name);
         facultyService.addFaculty(faculty);
         System.out.println("Факультет добавлен.");
+        ConsoleUtils.waitForEnter();
     }
 
     private void updateFaculty() {
@@ -91,8 +96,10 @@ public class FacultyUI {
             faculty.setFaculty(name);
             facultyService.updateFaculty(faculty);
             System.out.println("Факультет обновлен.");
+            ConsoleUtils.waitForEnter();
         } else {
             System.out.println("Факультет не найден.");
+            ConsoleUtils.waitForEnter();
         }
     }
 
@@ -102,6 +109,7 @@ public class FacultyUI {
         scanner.nextLine();
         facultyService.deleteFaculty(id);
         System.out.println("Факультет удален.");
+        ConsoleUtils.waitForEnter();
     }
 
     private void searchFaculty() {
@@ -109,5 +117,6 @@ public class FacultyUI {
         String query = scanner.nextLine();
         List<Faculty> faculties = facultyService.searchFaculties(query);
         faculties.forEach(System.out::println);
+        ConsoleUtils.waitForEnter();
     }
 }

@@ -1,7 +1,8 @@
 package com.example.dao;
 
-import com.example.HibernateUtil;
 import com.example.model.Grade;
+import com.example.util.HibernateUtil;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;

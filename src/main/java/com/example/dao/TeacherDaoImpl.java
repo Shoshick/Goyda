@@ -5,7 +5,6 @@ import com.example.model.Teacher;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
-import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -62,12 +61,15 @@ public class TeacherDaoImpl implements TeacherDao {
     }
 
     @Override
-    public List<Teacher> search(String query) {
-        try (Session session = sessionFactory.openSession()) {
-            String hql = "from Teacher t where t.teacherCode like :query or t.fullName like :query or t.phone like :query or t.email like :query";
-            Query<Teacher> hQuery = session.createQuery(hql, Teacher.class);
-            hQuery.setParameter("query", "%" + query + "%");
-            return hQuery.list();
-        }
+public List<Teacher> search(String query) {
+    try (Session session = sessionFactory.openSession()) {
+        String hql = "FROM Teacher WHERE fullName LIKE :query OR teacherCode LIKE :query";
+        return session.createQuery(hql, Teacher.class)
+                      .setParameter("query", "%" + query + "%")
+                      .list();
+    } catch (Exception e) {
+        throw new RuntimeException("Ошибка при поиске учителей", e);
     }
+}
+
 }

@@ -2,7 +2,8 @@ package com.example.ui;
 
 import com.example.model.Department;
 import com.example.service.DepartmentService;
-import com.example.PaginationUtil;
+import com.example.util.PaginationUtil;
+import com.example.util.ConsoleUtils;
 
 
 import java.util.List;
@@ -20,37 +21,46 @@ public class DepartmentUI {
 
     public void showMenu() {
         while (true) {
+            ConsoleUtils.clearScreen();
             System.out.println("1. Просмотр всех департаментов");
             System.out.println("2. Получить департамент по ID");
             System.out.println("3. Добавить новый департамент");
             System.out.println("4. Обновить департамент");
             System.out.println("5. Удалить департамент");
             System.out.println("6. Поиск департамента");
-            System.out.println("7. Выход");
+            System.out.println("0. Выход");
+            System.out.print("Ваш выбор: ");
 
             int choice = scanner.nextInt();
             scanner.nextLine();  // Очистка буфера
 
             switch (choice) {
                 case 1:
+                    ConsoleUtils.clearScreen();
                     viewAllDepartments();
                     break;
                 case 2:
+                    ConsoleUtils.clearScreen();
                     viewDepartmentById();
                     break;
                 case 3:
+                    ConsoleUtils.clearScreen();
                     addDepartment();
                     break;
                 case 4:
+                    ConsoleUtils.clearScreen();
                     updateDepartment();
                     break;
                 case 5:
+                    ConsoleUtils.clearScreen();
                     deleteDepartment();
                     break;
                 case 6:
+                    ConsoleUtils.clearScreen();
                     searchDepartment();
                     break;
-                case 7:
+                case 0:
+                    ConsoleUtils.clearScreen();
                     System.out.println("Выход...");
                     return;
                 default:
@@ -71,8 +81,10 @@ public class DepartmentUI {
         Department department = departmentService.getDepartmentById(id);
         if (department != null) {
             System.out.println(department);
+            ConsoleUtils.waitForEnter();
         } else {
             System.out.println("Департамент с таким ID не найден.");
+            ConsoleUtils.waitForEnter();
         }
     }
 
@@ -83,6 +95,7 @@ public class DepartmentUI {
         department.setDepartment(departmentName);  // Изменено
         departmentService.addDepartment(department);
         System.out.println("Департамент добавлен.");
+        ConsoleUtils.waitForEnter();
     }
 
     private void updateDepartment() {
@@ -96,8 +109,10 @@ public class DepartmentUI {
             department.setDepartment(newName);
             departmentService.updateDepartment(department);
             System.out.println("Департамент обновлен.");
+            ConsoleUtils.waitForEnter();
         } else {
             System.out.println("Департамент с таким ID не найден.");
+            ConsoleUtils.waitForEnter();
         }
     }
 
@@ -107,6 +122,7 @@ public class DepartmentUI {
         scanner.nextLine();  // Очистка буфера
         departmentService.deleteDepartment(id);
         System.out.println("Департамент удалён.");
+        ConsoleUtils.waitForEnter();
     }
 
     private void searchDepartment() {
@@ -115,10 +131,10 @@ public class DepartmentUI {
         List<Department> departments = departmentService.searchDepartments(query);
         if (departments.isEmpty()) {
             System.out.println("Департаменты по данному запросу не найдены.");
+            ConsoleUtils.waitForEnter();
         } else {
-            for (Department department : departments) {
-                System.out.println(department);
-            }
+            departments.forEach(System.out::println);
+            ConsoleUtils.waitForEnter();
         }
     }
 }

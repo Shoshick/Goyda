@@ -1,7 +1,10 @@
 package com.example.ui;
 
 import com.example.service.*;
-import com.example.HibernateUtil;
+import com.example.util.HibernateUtil;
+import com.example.util.ConsoleUtils;
+
+
 import org.hibernate.SessionFactory;
 import java.util.Scanner;
 
@@ -27,6 +30,7 @@ public class Main {
 
         // Главное меню
         while (running) {
+            ConsoleUtils.clearScreen();
             System.out.println("Выберите таблицу для работы:");
             System.out.println("1. Rank");
             System.out.println("2. Degree");
@@ -91,6 +95,7 @@ public class Main {
 
     public static void displayDegreeMenu(Scanner scanner, DegreeService degreeService) {
         DegreeUI degreeUI = new DegreeUI(degreeService);
+        ConsoleUtils.clearScreen();
         degreeUI.showMenu();
     }
 

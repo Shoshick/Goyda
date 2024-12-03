@@ -5,8 +5,8 @@ import com.example.model.Degree;
 import com.example.model.Rank;
 import com.example.model.Department;
 import com.example.service.TeacherService;
-import com.example.PaginationUtil;
-
+import com.example.util.ConsoleUtils;
+import com.example.util.PaginationUtil;
 
 import java.util.List;
 import java.util.Scanner;
@@ -25,12 +25,14 @@ public class TeacherUI {
         boolean running = true;
 
         while (running) {
+            ConsoleUtils.clearScreen();
             System.out.println("=== Меню: Учителя ===");
             System.out.println("1. Просмотреть всех учителей");
-            System.out.println("2. Добавить учителя");
-            System.out.println("3. Редактировать учителя");
-            System.out.println("4. Удалить учителя");
-            System.out.println("5. Найти учителя");
+            System.out.println("2. Найти учителя по его коду");
+            System.out.println("3. Добавить учителя");
+            System.out.println("4. Редактировать учителя");
+            System.out.println("5. Удалить учителя");
+            System.out.println("6. Найти учителя");
             System.out.println("0. Вернуться в главное меню");
             System.out.print("Ваш выбор: ");
 
@@ -43,18 +45,22 @@ public class TeacherUI {
                     break;
                 }
                 case 2: {
-                    addTeacher(scanner);
+                    viewTeacherByCode(scanner, teacherService);
                     break;
                 }
                 case 3: {
-                    updateTeacher(scanner);
+                    addTeacher(scanner);
                     break;
                 }
                 case 4: {
-                    deleteTeacher(scanner);
+                    updateTeacher(scanner);
                     break;
                 }
                 case 5: {
+                    deleteTeacher(scanner);
+                    break;
+                }
+                case 6: {
                     searchTeachers(scanner);
                     break;
                 }
@@ -73,6 +79,25 @@ public class TeacherUI {
         List<Teacher> teachers = teacherService.getAllTeachers();
         PaginationUtil.paginateAndDisplay(teachers, "=== Список учителей ===", scanner);
     }
+
+    private void viewTeacherByCode(Scanner scanner, TeacherService teacherService) {
+        System.out.print("Введите код учителя: ");
+        String teacherCode = scanner.nextLine();
+        try {
+            Teacher teacher = teacherService.getTeacherByCode(teacherCode);
+            if (teacher != null) {
+                System.out.println(teacher);
+                ConsoleUtils.waitForEnter();
+            } else {
+                System.out.println("Учитель с таким кодом не найден.");
+                ConsoleUtils.waitForEnter();
+            }
+        } catch (Exception e) {
+            System.out.println("Ошибка при получении учителя: " + e.getMessage());
+            ConsoleUtils.waitForEnter();
+        }
+    }
+    
 
     private void addTeacher(Scanner scanner) {
         try {
@@ -113,9 +138,11 @@ public class TeacherUI {
 
             teacherService.addTeacher(teacher);
             System.out.println("Учитель успешно добавлен.");
+            ConsoleUtils.waitForEnter();
         } catch (Exception e) {
             System.out.println("Ошибка: Не удалось добавить учителя. Проверьте корректность данных.");
             System.out.println("Подробнее: " + e.getMessage());
+            ConsoleUtils.waitForEnter();
         }
     }
 
@@ -126,6 +153,7 @@ public class TeacherUI {
         Teacher teacher = teacherService.getTeacherByCode(teacherCode);
         if (teacher == null) {
             System.out.println("Учитель с таким кодом не найден.");
+            ConsoleUtils.waitForEnter();
             return;
         }
         try {
@@ -164,9 +192,11 @@ public class TeacherUI {
 
             teacherService.updateTeacher(teacher);
             System.out.println("Учитель успешно обновлён.");
+            ConsoleUtils.waitForEnter();
         } catch (Exception e) {
             System.out.println("Ошибка: Не удалось добавить учителя. Проверьте корректность данных.");
             System.out.println("Подробнее: " + e.getMessage());
+            ConsoleUtils.waitForEnter();
         }
     }
     
@@ -176,6 +206,7 @@ public class TeacherUI {
 
         teacherService.deleteTeacher(teacherCode);
         System.out.println("Учитель успешно удалён.");
+        ConsoleUtils.waitForEnter();
     }
 
     private void searchTeachers(Scanner scanner) {
@@ -187,5 +218,6 @@ public class TeacherUI {
         for (Teacher teacher : teachers) {
             System.out.println(teacher);
         }
+        ConsoleUtils.waitForEnter();
     }
 }

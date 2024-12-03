@@ -81,7 +81,7 @@ public class RankDaoImpl implements RankDao {
     @Override
     public List<Rank> search(String query) {
         try (Session session = sessionFactory.openSession()) {
-            String hql = "FROM Rank r WHERE lower(r.name) LIKE :query";
+            String hql = "FROM Rank WHERE rank LIKE :query";
             Query<Rank> searchQuery = session.createQuery(hql, Rank.class);
             searchQuery.setParameter("query", "%" + query.toLowerCase() + "%");
             return searchQuery.list();

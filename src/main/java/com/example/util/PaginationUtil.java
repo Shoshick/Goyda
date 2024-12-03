@@ -1,4 +1,4 @@
-package com.example;
+package com.example.util;
 
 import java.util.List;
 import java.util.Scanner;
@@ -19,7 +19,7 @@ public class PaginationUtil {
         while (true) {
             int start = (currentPage - 1) * pageSize;
             int end = Math.min(start + pageSize, totalRecords);
-
+            ConsoleUtils.clearScreen();
             System.out.println("\n" + header);
             System.out.println("Страница " + currentPage + " из " + totalPages);
 
@@ -29,7 +29,7 @@ public class PaginationUtil {
 
             System.out.println("\n1. Следующая страница");
             System.out.println("2. Предыдущая страница");
-            System.out.println("3. Выйти");
+            System.out.println("0. Выйти");
 
             System.out.print("Выберите действие: ");
             int choice = scanner.nextInt();
@@ -40,14 +40,16 @@ public class PaginationUtil {
                     currentPage++;
                 } else {
                     System.out.println("Это последняя страница.");
+                    ConsoleUtils.waitForEnter();
                 }
             } else if (choice == 2) {
                 if (currentPage > 1) {
                     currentPage--;
                 } else {
                     System.out.println("Это первая страница.");
+                    ConsoleUtils.waitForEnter();
                 }
-            } else if (choice == 3) {
+            } else if (choice == 0) {
                 System.out.println("Возврат в меню.");
                 break;
             } else {

@@ -2,8 +2,8 @@ package com.example.ui;
 
 import com.example.model.Thesis;
 import com.example.service.ThesisService;
-import com.example.PaginationUtil;
-
+import com.example.util.ConsoleUtils;
+import com.example.util.PaginationUtil;
 
 import java.util.List;
 import java.util.Scanner;
@@ -23,12 +23,14 @@ public class ThesisUI {
         boolean running = true;
 
         while (running) {
+            ConsoleUtils.clearScreen();
             System.out.println("=== Меню: Дипломные работы ===");
             System.out.println("1. Просмотреть все работы");
-            System.out.println("2. Добавить работу");
-            System.out.println("3. Редактировать работу");
-            System.out.println("4. Удалить работу");
-            System.out.println("5. Найти работу");
+            System.out.println("2. Найти работу по зачётной книжке");
+            System.out.println("3. Добавить работу");
+            System.out.println("4. Редактировать работу");
+            System.out.println("5. Удалить работу");
+            System.out.println("6. Найти работу");
             System.out.println("0. Вернуться в главное меню");
             System.out.print("Ваш выбор: ");
 
@@ -40,15 +42,18 @@ public class ThesisUI {
                     displayAllTheses();
                     break;
                 case 2:
-                    addThesis(scanner);
+                    viewThesisByGradeBook(scanner, thesisService);
                     break;
                 case 3:
-                    updateThesis(scanner);
+                    addThesis(scanner);
                     break;
                 case 4:
-                    deleteThesis(scanner);
+                    updateThesis(scanner);
                     break;
                 case 5:
+                    deleteThesis(scanner);
+                    break;
+                case 6:
                     searchTheses(scanner);
                     break;
                 case 0:
@@ -64,7 +69,27 @@ public class ThesisUI {
         List<Thesis> theses = thesisService.getAllTheses();
         PaginationUtil.paginateAndDisplay(theses, "=== Список работ ===", scanner);
 
+
     }
+
+    private void viewThesisByGradeBook(Scanner scanner, ThesisService thesisService) {
+        System.out.print("Введите номер зачётной книжки: ");
+        String gradeBook = scanner.nextLine();
+        try {
+            Thesis thesis = thesisService.getThesisByGradeBook(gradeBook);
+            if (thesis != null) {
+                System.out.println(thesis);
+                ConsoleUtils.waitForEnter();
+            } else {
+                System.out.println("Дипломная работа с таким номером зачётной книжки не найдена.");
+                ConsoleUtils.waitForEnter();
+            }
+        } catch (Exception e) {
+            System.out.println("Ошибка при получении дипломной работы: " + e.getMessage());
+            ConsoleUtils.waitForEnter();
+        }
+    }
+    
 
     private void addThesis(Scanner scanner) {
         try {
@@ -83,9 +108,11 @@ public class ThesisUI {
     
             thesisService.addThesis(thesis);
             System.out.println("Работа успешно добавлена.");
+            ConsoleUtils.waitForEnter();
         } catch (Exception e) {
             System.out.println("Ошибка: Не удалось добавить работу. Проверьте корректность данных.");
             System.out.println("Подробнее: " + e.getMessage());
+            ConsoleUtils.waitForEnter();
         }
     }
     
@@ -98,6 +125,7 @@ public class ThesisUI {
             Thesis thesis = thesisService.getThesisByGradeBook(gradeBook);
             if (thesis == null) {
                 System.out.println("Работа с таким номером не найдена.");
+                ConsoleUtils.waitForEnter();
                 return;
             }
     
@@ -112,9 +140,11 @@ public class ThesisUI {
     
             thesisService.updateThesis(thesis);
             System.out.println("Работа успешно обновлена.");
+            ConsoleUtils.waitForEnter();
         } catch (Exception e) {
             System.out.println("Ошибка: Не удалось обновить дипломную работу. Проверьте корректность данных.");
             System.out.println("Подробнее: " + e.getMessage());
+            ConsoleUtils.waitForEnter();
         }
     }
     
@@ -126,11 +156,13 @@ public class ThesisUI {
         Thesis thesis = thesisService.getThesisByGradeBook(gradeBook);
         if (thesis == null) {
             System.out.println("Работа с таким номером не найдена.");
+            ConsoleUtils.waitForEnter();
             return;
         }
 
         thesisService.deleteThesis(gradeBook);
         System.out.println("Работа успешно удалена.");
+        ConsoleUtils.waitForEnter();
     }
 
     private void searchTheses(Scanner scanner) {
@@ -140,11 +172,13 @@ public class ThesisUI {
         List<Thesis> results = thesisService.searchTheses(query);
         if (results.isEmpty()) {
             System.out.println("Работы не найдены.");
+            ConsoleUtils.waitForEnter();
         } else {
             System.out.println("=== Результаты поиска ===");
             for (Thesis thesis : results) {
                 System.out.println(thesis);
             }
+            ConsoleUtils.waitForEnter();
         }
     }
 }
