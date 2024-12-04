@@ -144,15 +144,17 @@ public class StudentUI {
     private void deleteStudent() {
         System.out.print("Введите номер зачетной книжки студента для удаления: ");
         String gradeBook = scanner.nextLine();
+    
         try {
-            studentService.deleteStudent(gradeBook);
-            System.out.println("Студент удален.");
-            ConsoleUtils.waitForEnter();
-        } catch (Exception e) {
-            System.out.println("Ошибка при удалении студента: " + e.getMessage());
-            ConsoleUtils.waitForEnter();
+            studentService.deleteStudent(gradeBook); // Вызов метода из Service
+            System.out.println("Студент успешно удален.");
+        } catch (RuntimeException e) {
+            System.out.println("Ошибка: " + e.getMessage());  // Вывод ошибки без стека
         }
+    
+        ConsoleUtils.waitForEnter(); // Ожидание нажатия Enter перед возвратом в меню
     }
+    
 
     private void searchStudent() {
         System.out.print("Введите поисковый запрос: ");

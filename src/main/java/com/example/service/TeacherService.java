@@ -60,16 +60,16 @@ public class TeacherService {
     }
 
     public void deleteTeacher(String teacherCode) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            teacherDao.delete(teacherCode);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            throw new RuntimeException("Ошибка при удалении учителя с кодом: " + teacherCode, e);
+        try {
+            teacherDao.delete(teacherCode);  // Вызов метода из DAO
+        } catch (RuntimeException e) {
+            if (e.getMessage().contains("учитель используется в других записях")) {
+                throw new RuntimeException("Удаление невозможно: данный учитель связан с другими записями.");
+            }
+            throw new RuntimeException("Ошибка при удалении учителя.", e);
         }
     }
+    
 
     public List<Teacher> searchTeachers(String query) {
         try (Session session = sessionFactory.openSession()) {

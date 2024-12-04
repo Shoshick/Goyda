@@ -119,12 +119,19 @@ public class DepartmentUI {
     private void deleteDepartment() {
         System.out.print("Введите ID департамента для удаления: ");
         Long id = scanner.nextLong();
-        scanner.nextLine();  // Очистка буфера
-        departmentService.deleteDepartment(id);
-        System.out.println("Департамент удалён.");
-        ConsoleUtils.waitForEnter();
+        scanner.nextLine(); // Очистка буфера
+        
+        try {
+            departmentService.deleteDepartment(id); // Вызов метода Service
+            System.out.println("Департамент успешно удалён.");
+        } catch (RuntimeException e) {
+            // Обработка ошибок с выводом сообщения без стека
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+    
+        ConsoleUtils.waitForEnter(); // Ожидание перед возвратом в меню
     }
-
+    
     private void searchDepartment() {
         System.out.print("Введите запрос для поиска: ");
         String query = scanner.nextLine();

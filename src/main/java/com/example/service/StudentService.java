@@ -70,18 +70,16 @@ public class StudentService {
 
     // Удаление студента по номеру зачетной книжки
     public void deleteStudent(String gradeBook) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            studentDao.delete(gradeBook);
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) {
-                transaction.rollback();
+        try {
+            studentDao.delete(gradeBook);  // Вызов метода из DAO
+        } catch (RuntimeException e) {
+            if (e.getMessage().contains("студент используется в других записях")) {
+                throw new RuntimeException("Удаление невозможно: данный студент связан с другими записями.");
             }
-            throw new RuntimeException("Ошибка при удалении студента с зачетной книжкой: " + gradeBook, e);
+            throw new RuntimeException("Ошибка при удалении студента.", e);
         }
     }
+    
 
     // Поиск студентов по строковому запросу
     public List<Student> searchStudents(String searchTerm) {

@@ -113,11 +113,18 @@ public class GroupUI {
     private void deleteGroup() {
         System.out.print("Введите ID группы для удаления: ");
         Long id = scanner.nextLong();
-        scanner.nextLine(); 
-        groupService.deleteGroup(id);
-        System.out.println("Группа удалена.");
-        ConsoleUtils.waitForEnter();
+        scanner.nextLine(); // Очистка буфера
+    
+        try {
+            groupService.deleteGroup(id); // Вызов метода из Service
+            System.out.println("Группа успешно удалена.");
+        } catch (RuntimeException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+    
+        ConsoleUtils.waitForEnter(); // Ожидание нажатия Enter перед возвратом в меню
     }
+    
 
     private void searchGroup() {
         System.out.print("Введите запрос для поиска: ");

@@ -70,15 +70,29 @@ public class StudentDaoImpl implements StudentDao {
 
     @Override
     public void delete(String gradeBook) {
+        Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
+            transaction = session.beginTransaction();
             Student student = session.get(Student.class, gradeBook);  // Поиск студента по gradeBook
             if (student != null) {
-                session.remove(student); // Используем remove вместо delete
+                session.remove(student);  // Удаление студента
+            } else {
+                throw new RuntimeException("Студент с данным номером зачетной книжки не найден.");
             }
-            session.getTransaction().commit();
+            transaction.commit();  // Фиксация транзакции
+        } catch (org.hibernate.exception.ConstraintViolationException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Удаление невозможно: студент используется в других записях.", e);
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Ошибка при удалении студента.", e);
         }
     }
+
 
     @Override
     public List<Student> search(String query) {

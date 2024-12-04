@@ -3,8 +3,11 @@ package com.example.service;
 import com.example.dao.DegreeDao;
 import com.example.dao.DegreeDaoImpl;
 import com.example.model.Degree;
+
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+
+
 
 import java.util.List;
 
@@ -14,48 +17,60 @@ public class DegreeService {
 
     public DegreeService(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-        this.degreeDao = new DegreeDaoImpl(sessionFactory);  // DAO создаётся с SessionFactory
+        this.degreeDao = new DegreeDaoImpl(sessionFactory);  
     }
 
-    // Получение всех степеней
+    
     public List<Degree> getAllDegrees() {
         try (Session session = sessionFactory.openSession()) {
-            return degreeDao.getAll();  // Вызов DAO для получения всех степеней
+            return degreeDao.getAll();  
         }
     }
 
-    // Получение степени по ID
+    
     public Degree getDegreeById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            return degreeDao.getById(id);  // Вызов DAO для получения степени по ID
+            return degreeDao.getById(id);  
         }
     }
 
-    // Добавление новой степени
+    
     public void addDegree(Degree degree) {
         try (Session session = sessionFactory.openSession()) {
-            degreeDao.save(degree);  // Вызов DAO для добавления степени
+            degreeDao.save(degree);  
         }
     }
 
-    // Обновление степени
+    
     public void updateDegree(Degree degree) {
         try (Session session = sessionFactory.openSession()) {
-            degreeDao.update(degree);  // Вызов DAO для обновления степени
+            degreeDao.update(degree);  
         }
     }
 
-    // Удаление степени
+    
     public void deleteDegree(Long id) {
-        try (Session session = sessionFactory.openSession()) {
-            degreeDao.delete(id);  // Вызов DAO для удаления степени
+        try {
+            degreeDao.delete(id); // Вызов метода Dao
+        } catch (RuntimeException e) {
+            // Переименовываем сообщение для пользователя, если нужно
+            if (e.getMessage().contains("степень используется")) {
+                throw new RuntimeException("Удаление невозможно: данная степень связана с другими записями.");
+            }
+            throw new RuntimeException("Ошибка при удалении степени.", e);
         }
     }
+    
+    
+    
 
-    // Поиск степеней по запросу
+    
+    
+    
+
     public List<Degree> searchDegrees(String query) {
         try (Session session = sessionFactory.openSession()) {
-            return degreeDao.search(query);  // Вызов DAO для поиска степеней
+            return degreeDao.search(query);  
         }
     }
 }

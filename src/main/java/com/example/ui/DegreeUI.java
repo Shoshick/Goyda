@@ -5,13 +5,18 @@ import com.example.service.DegreeService;
 import com.example.util.ConsoleUtils;
 import com.example.util.PaginationUtil;
 
+
 import java.util.List;
 import java.util.Scanner;
+
+
 
 public class DegreeUI {
 
     private final DegreeService degreeService;
     private final Scanner scanner;
+
+
 
     public DegreeUI(DegreeService degreeService) {
         this.degreeService = degreeService;
@@ -119,11 +124,21 @@ public class DegreeUI {
     private void deleteDegree() {
         System.out.print("Введите ID степени для удаления: ");
         Long id = scanner.nextLong();
-        scanner.nextLine();  // очистка буфера
-        degreeService.deleteDegree(id);
-        System.out.println("Степень удалена.");
-        ConsoleUtils.waitForEnter();
+        scanner.nextLine(); // Очистка буфера
+        
+        try {
+            degreeService.deleteDegree(id); // Вызов метода Service
+            System.out.println("Степень успешно удалена.");
+        } catch (RuntimeException e) {
+            // Обработка ошибок с выводом сообщения без стека
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+    
+        ConsoleUtils.waitForEnter(); // Ожидание перед возвратом в меню
     }
+    
+    
+    
 
     private void searchDegree() {
         System.out.print("Введите запрос для поиска: ");

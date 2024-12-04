@@ -107,12 +107,21 @@ public class RankUI {
     }
 
     private void deleteRank() {
-        System.out.print("Введите ID звания для удаления: ");
+        System.out.print("Введите ID ранга для удаления: ");
         Long id = scanner.nextLong();
-        scanner.nextLine();  // Очищаем буфер после nextLong()
-        rankService.deleteRank(id);
-        System.out.println("Звание удалено.");
+        scanner.nextLine(); // Очистка буфера
+    
+        try {
+            rankService.deleteRank(id); // Вызов метода из Service
+            System.out.println("Ранг успешно удален.");
+        } catch (RuntimeException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+    
+        ConsoleUtils.waitForEnter(); // Ожидание нажатия Enter перед возвратом в меню
     }
+    
+    
 
     private void searchRank() {
         System.out.print("Введите запрос для поиска: ");

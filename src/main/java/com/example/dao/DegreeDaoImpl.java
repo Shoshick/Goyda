@@ -59,23 +59,27 @@ public class DegreeDaoImpl implements DegreeDao {
 
     @Override
     public void delete(Long id) {
+        Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            try {
-                Degree degree = session.get(Degree.class, id);
-                if (degree != null) {
-                    session.remove(degree);  // remove для удаления сущности
-                    transaction.commit();
-                }
-            } catch (Exception e) {
-                if (transaction != null) {
-                    transaction.rollback();
-                }
-                e.printStackTrace();
-                throw new RuntimeException("Ошибка при удалении степени", e);
+            transaction = session.beginTransaction();
+            Degree degree = session.get(Degree.class, id);
+            if (degree != null) {
+                session.remove(degree); // Удаление сущности
             }
+            transaction.commit();
+        } catch (org.hibernate.exception.ConstraintViolationException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Удаление невозможно: степень используется в других записях.", e);
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Ошибка при удалении степени.", e);
         }
     }
+
 
     @Override
     public List<Degree> search(String searchTerm) {

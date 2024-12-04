@@ -58,12 +58,16 @@ public class GroupService {
 
     // Удаление группы
     public void deleteGroup(Long id) {
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            groupDao.delete(id);  // Вызов метода из DAO
-            session.getTransaction().commit();
+        try {
+            groupDao.delete(id); // Вызов метода из DAO
+        } catch (RuntimeException e) {
+            if (e.getMessage().contains("используется в других записях")) {
+                throw new RuntimeException("Удаление невозможно: данная группа связана с другими записями.");
+            }
+            throw new RuntimeException("Ошибка при удалении группы.", e);
         }
     }
+    
 
     // Поиск групп по запросу
     public List<Group> searchGroups(String query) {

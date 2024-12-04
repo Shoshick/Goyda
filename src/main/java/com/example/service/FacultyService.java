@@ -59,12 +59,16 @@ public class FacultyService {
 
     // Удаление факультета
     public void deleteFaculty(Long id) {
-        try (Session session = sessionFactory.openSession()) {
-            session.beginTransaction();
-            facultyDao.delete(id);  // Вызов метода из DAO
-            session.getTransaction().commit();
+        try {
+            facultyDao.delete(id); // Вызов метода из DAO
+        } catch (RuntimeException e) {
+            if (e.getMessage().contains("используется в других записях")) {
+                throw new RuntimeException("Удаление невозможно: данный факультет связан с другими записями.");
+            }
+            throw new RuntimeException("Ошибка при удалении факультета.", e);
         }
     }
+    
 
     // Поиск факультетов по запросу
     public List<Faculty> searchFaculties(String query) {

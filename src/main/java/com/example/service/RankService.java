@@ -51,12 +51,17 @@ public class RankService {
     }
 
     public void deleteRank(Long id) {
-        try (Session session = sessionFactory.openSession()) {
-            rankDao.delete(id);
-        } catch (Exception e) {
-            throw new RuntimeException("Ошибка при удалении ранга с ID: " + id, e);
+        try {
+            rankDao.delete(id);  // Вызов метода из DAO
+        } catch (RuntimeException e) {
+            if (e.getMessage().contains("используется в других записях")) {
+                throw new RuntimeException("Удаление невозможно: данный ранг связан с другими записями.");
+            }
+            throw new RuntimeException("Ошибка при удалении ранга.", e);
         }
     }
+    
+    
 
     public List<Rank> searchRanks(String query) {
         try (Session session = sessionFactory.openSession()) {

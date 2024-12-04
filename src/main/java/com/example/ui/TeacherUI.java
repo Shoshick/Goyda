@@ -203,11 +203,17 @@ public class TeacherUI {
     private void deleteTeacher(Scanner scanner) {
         System.out.print("Введите код учителя для удаления: ");
         String teacherCode = scanner.nextLine();
-
-        teacherService.deleteTeacher(teacherCode);
-        System.out.println("Учитель успешно удалён.");
-        ConsoleUtils.waitForEnter();
+    
+        try {
+            teacherService.deleteTeacher(teacherCode); // Вызов метода из Service
+            System.out.println("Учитель успешно удален.");
+        } catch (RuntimeException e) {
+            System.out.println("Ошибка: " + e.getMessage());  // Вывод ошибки без стека
+        }
+    
+        ConsoleUtils.waitForEnter(); // Ожидание нажатия Enter перед возвратом в меню
     }
+    
 
     private void searchTeachers(Scanner scanner) {
         System.out.print("Введите строку для поиска: ");

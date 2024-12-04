@@ -8,6 +8,7 @@ public class PaginationUtil {
     public static <T> void paginateAndDisplay(List<T> items, String header, Scanner scanner) {
         if (items.isEmpty()) {
             System.out.println("Нет данных в базе.");
+            ConsoleUtils.waitForEnter();
             return;
         }
 

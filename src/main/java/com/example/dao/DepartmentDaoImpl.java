@@ -51,21 +51,30 @@ public class DepartmentDaoImpl implements DepartmentDao {
         }
     }
 
-    @Override
-    public void delete(Long id) {
-        Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
-            transaction = session.beginTransaction();
-            Department department = session.get(Department.class, id);
-            if (department != null) {
-                session.remove(department); // Используем remove для удаления сущности
-            }
-            transaction.commit();
-        } catch (Exception e) {
-            if (transaction != null) transaction.rollback();
-            throw new RuntimeException("Ошибка при удалении департамента", e);
+@Override
+public void delete(Long id) {
+    Transaction transaction = null;
+    try (Session session = sessionFactory.openSession()) {
+        transaction = session.beginTransaction();
+        Department department = session.get(Department.class, id);
+        if (department != null) {
+            session.remove(department); // Удаление сущности
         }
+        transaction.commit();
+    } catch (org.hibernate.exception.ConstraintViolationException e) {
+        if (transaction != null) {
+            transaction.rollback();
+        }
+        throw new RuntimeException("Удаление невозможно: департамент используется в других записях.", e);
+    } catch (Exception e) {
+        if (transaction != null) {
+            transaction.rollback();
+        }
+        throw new RuntimeException("Ошибка при удалении департамента.", e);
     }
+}
+
+
 
     @Override
     public List<Department> search(String searchTerm) {

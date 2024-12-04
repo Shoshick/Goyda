@@ -53,20 +53,25 @@ public class FacultyDaoImpl implements FacultyDao {
 
     @Override
     public void delete(Long id) {
+        Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            try {
-                Faculty faculty = session.get(Faculty.class, id);
-                if (faculty != null) {
-                    session.remove(faculty);
-                    transaction.commit();
-                }
-            } catch (Exception e) {
-                if (transaction != null) transaction.rollback();
-                e.printStackTrace();
+            transaction = session.beginTransaction();
+            Faculty faculty = session.get(Faculty.class, id);
+            if (faculty != null) {
+                session.remove(faculty); // Удаление сущности
+            } else {
+                throw new RuntimeException("Факультет с данным ID не найден.");
             }
+            transaction.commit(); // Фиксация транзакции
+        } catch (org.hibernate.exception.ConstraintViolationException e) {
+            if (transaction != null) transaction.rollback();
+            throw new RuntimeException("Удаление невозможно: факультет используется в других записях.", e);
+        } catch (Exception e) {
+            if (transaction != null) transaction.rollback();
+            throw new RuntimeException("Ошибка при удалении факультета.", e);
         }
     }
+
 
     @Override
     public List<Faculty> search(String query) {

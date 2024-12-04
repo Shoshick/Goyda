@@ -5,15 +5,18 @@ import com.example.util.HibernateUtil;
 import com.example.util.ConsoleUtils;
 
 
+
+
 import org.hibernate.SessionFactory;
 import java.util.Scanner;
 
 public class Main {
 
+    
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
-
+        
         // Получаем SessionFactory через HibernateUtil
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 

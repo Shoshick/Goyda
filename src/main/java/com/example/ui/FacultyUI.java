@@ -104,13 +104,20 @@ public class FacultyUI {
     }
 
     private void deleteFaculty() {
-        System.out.print("Введите ID факультета: ");
+        System.out.print("Введите ID факультета для удаления: ");
         Long id = scanner.nextLong();
-        scanner.nextLine();
-        facultyService.deleteFaculty(id);
-        System.out.println("Факультет удален.");
-        ConsoleUtils.waitForEnter();
+        scanner.nextLine(); // Очистка буфера
+    
+        try {
+            facultyService.deleteFaculty(id); // Вызов метода из Service
+            System.out.println("Факультет успешно удалён.");
+        } catch (RuntimeException e) {
+            System.out.println("Ошибка: " + e.getMessage());
+        }
+    
+        ConsoleUtils.waitForEnter(); // Ожидание нажатия Enter перед возвратом в меню
     }
+    
 
     private void searchFaculty() {
         System.out.print("Введите запрос для поиска: ");

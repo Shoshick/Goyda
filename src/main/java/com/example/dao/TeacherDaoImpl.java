@@ -50,15 +50,29 @@ public class TeacherDaoImpl implements TeacherDao {
 
     @Override
     public void delete(String teacherCode) {
+        Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
-            Transaction transaction = session.beginTransaction();
-            Teacher teacher = session.get(Teacher.class, teacherCode);
+            transaction = session.beginTransaction();
+            Teacher teacher = session.get(Teacher.class, teacherCode);  // Поиск учителя по teacherCode
             if (teacher != null) {
-                session.remove(teacher);
+                session.remove(teacher);  // Удаление учителя
+            } else {
+                throw new RuntimeException("Учитель с данным кодом не найден.");
             }
-            transaction.commit();
+            transaction.commit();  // Фиксация транзакции
+        } catch (org.hibernate.exception.ConstraintViolationException e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Удаление невозможно: учитель используется в других записях.", e);
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            throw new RuntimeException("Ошибка при удалении учителя.", e);
         }
     }
+
 
     @Override
 public List<Teacher> search(String query) {

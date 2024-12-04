@@ -3,45 +3,67 @@ package com.example.service;
 import com.example.dao.DepartmentDao;
 import com.example.dao.DepartmentDaoImpl;
 import com.example.model.Department;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 
 import java.util.List;
 
 public class DepartmentService {
-
     private final DepartmentDao departmentDao;
+    private final SessionFactory sessionFactory;
 
     public DepartmentService(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
         this.departmentDao = new DepartmentDaoImpl(sessionFactory);
     }
 
     // Получение всех департаментов
     public List<Department> getAllDepartments() {
-        return departmentDao.getAll();
+        try (Session session = sessionFactory.openSession()) {
+            return departmentDao.getAll();
+        }
     }
 
     // Получение департамента по ID
     public Department getDepartmentById(Long id) {
-        return departmentDao.getById(id);
+        try (Session session = sessionFactory.openSession()) {
+            return departmentDao.getById(id);
+        }
     }
 
     // Добавление нового департамента
     public void addDepartment(Department department) {
-        departmentDao.save(department);
+        try (Session session = sessionFactory.openSession()) {
+            departmentDao.save(department);
+        }
     }
 
     // Обновление департамента
     public void updateDepartment(Department department) {
-        departmentDao.update(department);
+        try (Session session = sessionFactory.openSession()) {
+            departmentDao.update(department);
+        }
     }
 
     // Удаление департамента
     public void deleteDepartment(Long id) {
-        departmentDao.delete(id);
+        try {
+            departmentDao.delete(id); // Вызов метода Dao
+        } catch (RuntimeException e) {
+            // Переименовываем сообщение для пользователя, если нужно
+            if (e.getMessage().contains("департамент используется")) {
+                throw new RuntimeException("Удаление невозможно: данный департамент связан с другими записями.");
+            }
+            throw new RuntimeException("Ошибка при удалении департамента.", e);
+        }
     }
+    
+    
 
     // Поиск департаментов по запросу
     public List<Department> searchDepartments(String query) {
-        return departmentDao.search(query);
+        try (Session session = sessionFactory.openSession()) {
+            return departmentDao.search(query);
+        }
     }
 }
