@@ -37,7 +37,7 @@ public class TeacherUI {
             System.out.print("Ваш выбор: ");
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Очистка буфера после ввода числа
+            scanner.nextLine(); 
 
             switch (choice) {
                 case 1: {
@@ -110,9 +110,9 @@ public class TeacherUI {
             Long degreeId = scanner.nextLong();
             System.out.print("ID звания: ");
             Long rankId = scanner.nextLong();
-            System.out.print("ID кафедры: ");
+            System.out.print("ID департамента: ");
             Long departmentId = scanner.nextLong();
-            scanner.nextLine(); // Очистка буфера после ввода числа
+            scanner.nextLine(); 
             System.out.print("Телефон: ");
             String phone = scanner.nextLine();
             System.out.print("Email: ");
@@ -164,7 +164,7 @@ public class TeacherUI {
             String degreeIdInput = scanner.nextLine();
             System.out.print("ID звания (" + teacher.getRank().getRankId() + "): ");
             String rankIdInput = scanner.nextLine();
-            System.out.print("ID кафедры (" + teacher.getDepartment().getDepartmentId() + "): ");
+            System.out.print("ID департамента (" + teacher.getDepartment().getDepartmentId() + "): ");
             String departmentIdInput = scanner.nextLine();
             System.out.print("Телефон (" + teacher.getPhone() + "): ");
             String phone = scanner.nextLine();
@@ -205,13 +205,13 @@ public class TeacherUI {
         String teacherCode = scanner.nextLine();
     
         try {
-            teacherService.deleteTeacher(teacherCode); // Вызов метода из Service
+            teacherService.deleteTeacher(teacherCode); 
             System.out.println("Учитель успешно удален.");
         } catch (RuntimeException e) {
-            System.out.println("Ошибка: " + e.getMessage());  // Вывод ошибки без стека
+            System.out.println("Ошибка: " + e.getMessage());  
         }
     
-        ConsoleUtils.waitForEnter(); // Ожидание нажатия Enter перед возвратом в меню
+        ConsoleUtils.waitForEnter(); 
     }
     
 

@@ -32,7 +32,7 @@ public class RankUI {
             System.out.print("Ваш выбор: ");
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Очищаем буфер после nextInt
+            scanner.nextLine(); 
 
             switch (choice) {
                 case 1:
@@ -55,7 +55,7 @@ public class RankUI {
                     break;
                 case 0:
                     System.out.println("Выход...");
-                    return;  // Выход из метода showMenu()
+                    return;  
                 default:
                     System.out.println("Некорректный выбор. Попробуйте снова.");
             }
@@ -70,7 +70,7 @@ public class RankUI {
     private void viewRankById() {
         System.out.print("Введите ID звания: ");
         Long id = scanner.nextLong();
-        scanner.nextLine();  // Очищаем буфер после nextLong()
+        scanner.nextLine();  
         Rank rank = rankService.getRankById(id);
         if (rank != null) {
             System.out.println(rank);
@@ -93,7 +93,7 @@ public class RankUI {
     private void updateRank() {
         System.out.print("Введите ID звания для обновления: ");
         Long id = scanner.nextLong();
-        scanner.nextLine();  // Очищаем буфер после nextLong()
+        scanner.nextLine();  
         Rank rank = rankService.getRankById(id);
         if (rank != null) {
             System.out.print("Введите новое название звания: ");
@@ -109,16 +109,16 @@ public class RankUI {
     private void deleteRank() {
         System.out.print("Введите ID ранга для удаления: ");
         Long id = scanner.nextLong();
-        scanner.nextLine(); // Очистка буфера
+        scanner.nextLine(); 
     
         try {
-            rankService.deleteRank(id); // Вызов метода из Service
+            rankService.deleteRank(id); 
             System.out.println("Ранг успешно удален.");
         } catch (RuntimeException e) {
             System.out.println("Ошибка: " + e.getMessage());
         }
     
-        ConsoleUtils.waitForEnter(); // Ожидание нажатия Enter перед возвратом в меню
+        ConsoleUtils.waitForEnter(); 
     }
     
     
@@ -129,6 +129,7 @@ public class RankUI {
         List<Rank> ranks = rankService.searchRanks(query);
         if (ranks.isEmpty()) {
             System.out.println("Звания по данному запросу не найдены.");
+            ConsoleUtils.waitForEnter();
         } else {
             for (Rank rank : ranks) {
                 System.out.println(rank);

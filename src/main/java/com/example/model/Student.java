@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Student {
 
     @Id
-    @Column(name = "grade_book", unique = true)
+    @Column(name = "grade_book", length = 10, unique = true)
     private String gradeBook;
 
     @ManyToOne
@@ -21,7 +21,7 @@ public class Student {
     @Column(name = "full_name")
     private String fullName;
 
-    // Геттеры и сеттеры
+    
 
     public String getGradeBook() {
         return gradeBook;
@@ -59,8 +59,8 @@ public class Student {
     public String toString() {
         return "Student{" +
                 "gradeBook='" + gradeBook + '\'' +
-                ", faculty=" + faculty.getFaculty() +  // Assuming Faculty has a getName method
-                ", group=" + group.getGroupName() +      // Assuming Group has a getName method
+                ", faculty=" + faculty.getFaculty() +  
+                ", group=" + group.getGroupName() +      
                 ", fullName='" + fullName + '\'' +
                 '}';
     }

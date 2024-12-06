@@ -35,7 +35,7 @@ public class ThesisUI {
             System.out.print("Ваш выбор: ");
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // Очистка буфера после ввода числа
+            scanner.nextLine(); 
 
             switch (choice) {
                 case 1:

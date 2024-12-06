@@ -17,7 +17,7 @@ public class Grade {
     @Column(name = "diploma_grade")
     private Integer diplomaGrade;
 
-    // Геттеры и сеттеры
+    
 
     public Student getStudent() {
         return student;

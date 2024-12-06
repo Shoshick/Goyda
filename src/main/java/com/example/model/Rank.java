@@ -8,22 +8,22 @@ public class Rank {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rank_id")  // Используем rank_id вместо id
+    @Column(name = "rank_id")  
     private Long rankId;
 
     @Column(nullable = false, unique = true)
     private String rank;
 
-    // Конструктор без параметров (требуется Hibernate)
+    
     public Rank() {
     }
 
-    // Новый конструктор с Long
+    
     public Rank(Long rankId) {
         this.rankId = rankId;
     }
 
-    // Геттеры и сеттеры
+    
     public Long getRankId() {
         return rankId;
     }

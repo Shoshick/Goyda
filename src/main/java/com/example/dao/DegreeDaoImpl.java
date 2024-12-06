@@ -21,7 +21,7 @@ public class DegreeDaoImpl implements DegreeDao {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
-                session.merge(degree);  // merge для отсоединённых сущностей
+                session.merge(degree);  
                 transaction.commit();
             } catch (Exception e) {
                 if (transaction != null) {
@@ -45,7 +45,7 @@ public class DegreeDaoImpl implements DegreeDao {
         try (Session session = sessionFactory.openSession()) {
             Transaction transaction = session.beginTransaction();
             try {
-                session.merge(degree);  // merge для обновления сущности
+                session.merge(degree);  
                 transaction.commit();
             } catch (Exception e) {
                 if (transaction != null) {
@@ -64,7 +64,7 @@ public class DegreeDaoImpl implements DegreeDao {
             transaction = session.beginTransaction();
             Degree degree = session.get(Degree.class, id);
             if (degree != null) {
-                session.remove(degree); // Удаление сущности
+                session.remove(degree); 
             }
             transaction.commit();
         } catch (org.hibernate.exception.ConstraintViolationException e) {

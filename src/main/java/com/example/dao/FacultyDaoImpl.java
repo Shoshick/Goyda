@@ -58,11 +58,11 @@ public class FacultyDaoImpl implements FacultyDao {
             transaction = session.beginTransaction();
             Faculty faculty = session.get(Faculty.class, id);
             if (faculty != null) {
-                session.remove(faculty); // Удаление сущности
+                session.remove(faculty); 
             } else {
                 throw new RuntimeException("Факультет с данным ID не найден.");
             }
-            transaction.commit(); // Фиксация транзакции
+            transaction.commit(); 
         } catch (org.hibernate.exception.ConstraintViolationException e) {
             if (transaction != null) transaction.rollback();
             throw new RuntimeException("Удаление невозможно: факультет используется в других записях.", e);

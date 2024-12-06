@@ -52,7 +52,7 @@ public class RankService {
 
     public void deleteRank(Long id) {
         try {
-            rankDao.delete(id);  // Вызов метода из DAO
+            rankDao.delete(id);  
         } catch (RuntimeException e) {
             if (e.getMessage().contains("используется в других записях")) {
                 throw new RuntimeException("Удаление невозможно: данный ранг связан с другими записями.");

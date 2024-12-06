@@ -32,7 +32,7 @@ public class GradeUI {
             System.out.print("Ваш выбор: ");
 
             int choice = scanner.nextInt();
-            scanner.nextLine(); // consume the newline
+            scanner.nextLine(); 
 
             switch (choice) {
                 case 1:
@@ -72,7 +72,7 @@ public class GradeUI {
         System.out.print("Введите номер зачетной книжки: ");
         String gradeBook = scanner.nextLine();
         try {
-            // Используем метод для получения одной оценки по зачетной книжке
+            
             Grade grade = gradeService.getGradeByGradeBook(gradeBook);
             if (grade != null) {
                 System.out.println(grade);
@@ -93,10 +93,10 @@ public class GradeUI {
         Integer examGrade = scanner.nextInt();
         System.out.print("Введите оценку за диплом: ");
         Integer diplomaGrade = scanner.nextInt();
-        scanner.nextLine(); // consume the newline
+        scanner.nextLine(); 
 
         try {
-            // Получаем студента по зачетной книжке (если этот метод нужно добавить в сервис)
+            
             Student student = gradeService.getStudentByGradeBook(gradeBook);
 
             if (student != null) {
@@ -128,9 +128,9 @@ public class GradeUI {
                 Integer examGrade = scanner.nextInt();
                 System.out.print("Введите новую оценку за диплом: ");
                 Integer diplomaGrade = scanner.nextInt();
-                scanner.nextLine(); // consume the newline
+                scanner.nextLine(); 
 
-                // Обновляем оценку
+                
                 grade.setExamGrade(examGrade);
                 grade.setDiplomaGrade(diplomaGrade);
                 gradeService.updateGrade(grade);
@@ -168,19 +168,24 @@ public class GradeUI {
 
     private void searchGrades() {
         System.out.print("Введите строку для поиска оценок: ");
-        String searchTerm = scanner.nextLine();
+        String searchTerm = scanner.nextLine().trim();
+        if (searchTerm.isEmpty()) {
+            System.out.println("Строка поиска не может быть пустой.");
+            return;
+        }
         try {
             List<Grade> grades = gradeService.searchGrades(searchTerm);
             if (grades.isEmpty()) {
                 System.out.println("Оценки не найдены.");
-                ConsoleUtils.waitForEnter();
             } else {
                 grades.forEach(System.out::println);
-                ConsoleUtils.waitForEnter();
             }
         } catch (Exception e) {
+            e.printStackTrace();
             System.out.println("Ошибка при поиске оценок: " + e.getMessage());
-            ConsoleUtils.waitForEnter();
         }
+        ConsoleUtils.waitForEnter();
     }
+    
+    
 }

@@ -17,40 +17,40 @@ public class DepartmentService {
         this.departmentDao = new DepartmentDaoImpl(sessionFactory);
     }
 
-    // Получение всех департаментов
+    
     public List<Department> getAllDepartments() {
         try (Session session = sessionFactory.openSession()) {
             return departmentDao.getAll();
         }
     }
 
-    // Получение департамента по ID
+    
     public Department getDepartmentById(Long id) {
         try (Session session = sessionFactory.openSession()) {
             return departmentDao.getById(id);
         }
     }
 
-    // Добавление нового департамента
+    
     public void addDepartment(Department department) {
         try (Session session = sessionFactory.openSession()) {
             departmentDao.save(department);
         }
     }
 
-    // Обновление департамента
+    
     public void updateDepartment(Department department) {
         try (Session session = sessionFactory.openSession()) {
             departmentDao.update(department);
         }
     }
 
-    // Удаление департамента
+    
     public void deleteDepartment(Long id) {
         try {
-            departmentDao.delete(id); // Вызов метода Dao
+            departmentDao.delete(id); 
         } catch (RuntimeException e) {
-            // Переименовываем сообщение для пользователя, если нужно
+            
             if (e.getMessage().contains("департамент используется")) {
                 throw new RuntimeException("Удаление невозможно: данный департамент связан с другими записями.");
             }
@@ -60,7 +60,7 @@ public class DepartmentService {
     
     
 
-    // Поиск департаментов по запросу
+    
     public List<Department> searchDepartments(String query) {
         try (Session session = sessionFactory.openSession()) {
             return departmentDao.search(query);

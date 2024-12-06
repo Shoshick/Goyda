@@ -24,7 +24,7 @@ public class Thesis {
     @Column(name = "topic", length = 255, nullable = false)
     private String topic;
 
-    // Геттеры и сеттеры
+    
     public String getGradeBook() {
         return gradeBook;
     }

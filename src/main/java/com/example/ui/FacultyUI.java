@@ -106,16 +106,16 @@ public class FacultyUI {
     private void deleteFaculty() {
         System.out.print("Введите ID факультета для удаления: ");
         Long id = scanner.nextLong();
-        scanner.nextLine(); // Очистка буфера
+        scanner.nextLine(); 
     
         try {
-            facultyService.deleteFaculty(id); // Вызов метода из Service
+            facultyService.deleteFaculty(id); 
             System.out.println("Факультет успешно удалён.");
         } catch (RuntimeException e) {
             System.out.println("Ошибка: " + e.getMessage());
         }
     
-        ConsoleUtils.waitForEnter(); // Ожидание нажатия Enter перед возвратом в меню
+        ConsoleUtils.waitForEnter(); 
     }
     
 

@@ -6,6 +6,7 @@ import com.example.util.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
+import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -48,7 +49,7 @@ public class GradeDaoImpl implements GradeDao {
     public void update(Grade grade) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.merge(grade);  // Используем update для обновления
+            session.merge(grade);  
             session.getTransaction().commit();
         }
     }
@@ -66,12 +67,13 @@ public class GradeDaoImpl implements GradeDao {
     }
 
     @Override
-    public List<Grade> search(String query) {
-        try (Session session = sessionFactory.openSession()) {
-            String hql = "from Grade g where g.student.gradeBook like :query or g.student.fullName like :query";
-            return session.createQuery(hql, Grade.class)
-                    .setParameter("query", "%" + query + "%")
-                    .getResultList();
-        }
+public List<Grade> search(String query) {
+    try (Session session = sessionFactory.openSession()) {
+        String hql = "FROM Grade g WHERE g.student.gradeBook LIKE :query OR CAST(g.examGrade AS string) LIKE :query OR CAST(g.diplomaGrade AS string) LIKE :query";
+        Query<Grade> hQuery = session.createQuery(hql, Grade.class);
+        hQuery.setParameter("query", "%" + query + "%");
+        return hQuery.list();
     }
+}
+
 }

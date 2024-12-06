@@ -63,11 +63,11 @@ public class GroupDaoImpl implements GroupDao {
             transaction = session.beginTransaction();
             Group group = session.get(Group.class, id);
             if (group != null) {
-                session.remove(group); // Удаление сущности
+                session.remove(group); 
             } else {
                 throw new RuntimeException("Группа с данным ID не найдена.");
             }
-            transaction.commit(); // Фиксация транзакции
+            transaction.commit(); 
         } catch (org.hibernate.exception.ConstraintViolationException e) {
             if (transaction != null) transaction.rollback();
             throw new RuntimeException("Удаление невозможно: группа используется в других записях.", e);

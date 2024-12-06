@@ -12,23 +12,23 @@ public class GroupService {
     private final GroupDao groupDao;
     private final SessionFactory sessionFactory;
 
-    // Конструктор, принимающий SessionFactory для использования в DAO
+    
     public GroupService(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-        this.groupDao = new GroupDaoImpl(sessionFactory);  // Создаем GroupDao с использованием SessionFactory
+        this.groupDao = new GroupDaoImpl(sessionFactory);  
     }
 
-    // Получение всех групп
+    
     public List<Group> getAllGroups() {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            List<Group> groups = groupDao.getAll();  // Вызов метода из DAO
+            List<Group> groups = groupDao.getAll();  
             session.getTransaction().commit();
             return groups;
         }
     }
 
-    // Получение группы по ID
+    
     public Group getGroupById(Long id) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
@@ -38,28 +38,28 @@ public class GroupService {
         }
     }
 
-    // Добавление новой группы
+    
     public void addGroup(Group group) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            groupDao.save(group);  // Вызов метода из DAO
+            groupDao.save(group);  
             session.getTransaction().commit();
         }
     }
 
-    // Обновление группы
+    
     public void updateGroup(Group group) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            groupDao.update(group);  // Вызов метода из DAO
+            groupDao.update(group);  
             session.getTransaction().commit();
         }
     }
 
-    // Удаление группы
+    
     public void deleteGroup(Long id) {
         try {
-            groupDao.delete(id); // Вызов метода из DAO
+            groupDao.delete(id); 
         } catch (RuntimeException e) {
             if (e.getMessage().contains("используется в других записях")) {
                 throw new RuntimeException("Удаление невозможно: данная группа связана с другими записями.");
@@ -69,11 +69,11 @@ public class GroupService {
     }
     
 
-    // Поиск групп по запросу
+    
     public List<Group> searchGroups(String query) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            List<Group> groups = groupDao.search(query);  // Вызов метода из DAO
+            List<Group> groups = groupDao.search(query);  
             session.getTransaction().commit();
             return groups;
         }

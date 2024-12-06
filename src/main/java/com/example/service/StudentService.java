@@ -14,13 +14,13 @@ public class StudentService {
     private final StudentDao studentDao;
     private final SessionFactory sessionFactory;
 
-    // Конструктор, принимающий SessionFactory для использования в DAO
+    
     public StudentService(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
         this.studentDao = new StudentDaoImpl(sessionFactory);
     }
 
-    // Получение студента по номеру зачетной книжки
+    
     public Student getStudentByGradeBook(String gradeBook) {
         try (Session session = sessionFactory.openSession()) {
             return studentDao.getByGradeBook(gradeBook);
@@ -29,7 +29,7 @@ public class StudentService {
         }
     }
 
-    // Получение всех студентов
+    
     public List<Student> getAllStudents() {
         try (Session session = sessionFactory.openSession()) {
             return studentDao.getAll();
@@ -38,7 +38,7 @@ public class StudentService {
         }
     }
 
-    // Добавление нового студента
+    
     public void addStudent(Student student) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
@@ -53,7 +53,7 @@ public class StudentService {
         }
     }
 
-    // Обновление информации о студенте
+    
     public void updateStudent(Student student) {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
@@ -68,10 +68,10 @@ public class StudentService {
         }
     }
 
-    // Удаление студента по номеру зачетной книжки
+    
     public void deleteStudent(String gradeBook) {
         try {
-            studentDao.delete(gradeBook);  // Вызов метода из DAO
+            studentDao.delete(gradeBook);  
         } catch (RuntimeException e) {
             if (e.getMessage().contains("студент используется в других записях")) {
                 throw new RuntimeException("Удаление невозможно: данный студент связан с другими записями.");
@@ -81,7 +81,7 @@ public class StudentService {
     }
     
 
-    // Поиск студентов по строковому запросу
+    
     public List<Student> searchStudents(String searchTerm) {
         try (Session session = sessionFactory.openSession()) {
             return studentDao.search(searchTerm);

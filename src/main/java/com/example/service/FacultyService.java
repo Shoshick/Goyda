@@ -13,23 +13,23 @@ public class FacultyService {
     private final FacultyDao facultyDao;
     private final SessionFactory sessionFactory;
 
-    // Конструктор, принимающий SessionFactory для использования в DAO
+    
     public FacultyService(SessionFactory sessionFactory) {
         this.sessionFactory = sessionFactory;
-        this.facultyDao = new FacultyDaoImpl(sessionFactory);  // Создаем FacultyDao с использованием SessionFactory
+        this.facultyDao = new FacultyDaoImpl(sessionFactory);  
     }
 
-    // Получение всех факультетов
+    
     public List<Faculty> getAllFaculties() {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            List<Faculty> faculties = facultyDao.getAll();  // Вызов метода из DAO
+            List<Faculty> faculties = facultyDao.getAll();  
             session.getTransaction().commit();
             return faculties;
         }
     }
 
-    // Получение факультета по ID
+    
     public Faculty getFacultyById(Long id) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
@@ -39,28 +39,28 @@ public class FacultyService {
         }
     }
 
-    // Добавление нового факультета
+    
     public void addFaculty(Faculty faculty) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            facultyDao.save(faculty);  // Вызов метода из DAO
+            facultyDao.save(faculty);  
             session.getTransaction().commit();
         }
     }
 
-    // Обновление факультета
+    
     public void updateFaculty(Faculty faculty) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            facultyDao.update(faculty);  // Вызов метода из DAO
+            facultyDao.update(faculty);  
             session.getTransaction().commit();
         }
     }
 
-    // Удаление факультета
+    
     public void deleteFaculty(Long id) {
         try {
-            facultyDao.delete(id); // Вызов метода из DAO
+            facultyDao.delete(id); 
         } catch (RuntimeException e) {
             if (e.getMessage().contains("используется в других записях")) {
                 throw new RuntimeException("Удаление невозможно: данный факультет связан с другими записями.");
@@ -70,11 +70,11 @@ public class FacultyService {
     }
     
 
-    // Поиск факультетов по запросу
+    
     public List<Faculty> searchFaculties(String query) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            List<Faculty> faculties = facultyDao.search(query);  // Вызов метода из DAO
+            List<Faculty> faculties = facultyDao.search(query);  
             session.getTransaction().commit();
             return faculties;
         }

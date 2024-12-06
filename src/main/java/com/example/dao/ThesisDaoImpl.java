@@ -63,7 +63,7 @@ public class ThesisDaoImpl implements ThesisDao {
     @Override
     public List<Thesis> search(String query) {
         try (Session session = sessionFactory.openSession()) {
-            String hql = "from Thesis t where t.gradeBook like :query or t.teacherCode like :query or t.topic like :query";
+            String hql = "FROM Thesis WHERE gradeBook LIKE :query OR teacherCode LIKE :query OR topic LIKE :query";
             Query<Thesis> hQuery = session.createQuery(hql, Thesis.class);
             hQuery.setParameter("query", "%" + query + "%");
             return hQuery.list();

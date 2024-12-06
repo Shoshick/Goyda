@@ -22,7 +22,7 @@ public class StudentDaoImpl implements StudentDao {
     @Override
     public Student getByGradeBook(String gradeBook) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(Student.class, gradeBook);  // Поиск по gradeBook
+            return session.get(Student.class, gradeBook);  
         }
     }
 
@@ -32,7 +32,7 @@ public class StudentDaoImpl implements StudentDao {
             String hql = "FROM Student WHERE gradeBook = :gradeBook";
             Query<Student> query = session.createQuery(hql, Student.class);
             query.setParameter("gradeBook", gradeBook);
-            return query.uniqueResult(); // Возвращает уникального студента по номеру зачетной книжки
+            return query.uniqueResult(); 
         } catch (Exception e) {
             throw new RuntimeException("Ошибка при получении студента по номеру зачетной книжки", e);
         }
@@ -50,7 +50,7 @@ public class StudentDaoImpl implements StudentDao {
         try (Session session = HibernateUtil.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
 
-            // Используем merge, чтобы поддерживать отсоединённые объекты
+            
             session.merge(student);
 
             transaction.commit();
@@ -63,7 +63,7 @@ public class StudentDaoImpl implements StudentDao {
     public void update(Student student) {
         try (Session session = sessionFactory.openSession()) {
             session.beginTransaction();
-            session.merge(student);  // Используем merge вместо update
+            session.merge(student);  
             session.getTransaction().commit();
         }
     }
@@ -73,13 +73,13 @@ public class StudentDaoImpl implements StudentDao {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            Student student = session.get(Student.class, gradeBook);  // Поиск студента по gradeBook
+            Student student = session.get(Student.class, gradeBook);  
             if (student != null) {
-                session.remove(student);  // Удаление студента
+                session.remove(student);  
             } else {
                 throw new RuntimeException("Студент с данным номером зачетной книжки не найден.");
             }
-            transaction.commit();  // Фиксация транзакции
+            transaction.commit();  
         } catch (org.hibernate.exception.ConstraintViolationException e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -93,14 +93,13 @@ public class StudentDaoImpl implements StudentDao {
         }
     }
 
-
     @Override
     public List<Student> search(String query) {
         try (Session session = sessionFactory.openSession()) {
-            String queryString = "from Student s where s.gradeBook like :query or s.fullName like :query or s.faculty.name like :query or s.group.name like :query";
-            Query<Student> hQuery = session.createQuery(queryString, Student.class);
+            String hql = "FROM Student s WHERE s.gradeBook LIKE :query OR s.fullName LIKE :query OR s.faculty.faculty LIKE :query OR s.group.groupName LIKE :query";
+            Query<Student> hQuery = session.createQuery(hql, Student.class);
             hQuery.setParameter("query", "%" + query + "%");
-            return hQuery.getResultList();
+            return hQuery.list();
         }
     }
 }

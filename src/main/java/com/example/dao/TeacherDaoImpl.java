@@ -53,13 +53,13 @@ public class TeacherDaoImpl implements TeacherDao {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            Teacher teacher = session.get(Teacher.class, teacherCode);  // Поиск учителя по teacherCode
+            Teacher teacher = session.get(Teacher.class, teacherCode);  
             if (teacher != null) {
-                session.remove(teacher);  // Удаление учителя
+                session.remove(teacher);  
             } else {
                 throw new RuntimeException("Учитель с данным кодом не найден.");
             }
-            transaction.commit();  // Фиксация транзакции
+            transaction.commit();  
         } catch (org.hibernate.exception.ConstraintViolationException e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -74,10 +74,10 @@ public class TeacherDaoImpl implements TeacherDao {
     }
 
 
-    @Override
+@Override
 public List<Teacher> search(String query) {
     try (Session session = sessionFactory.openSession()) {
-        String hql = "FROM Teacher WHERE fullName LIKE :query OR teacherCode LIKE :query";
+        String hql = "FROM Teacher t WHERE t.fullName LIKE :query OR t.teacherCode LIKE :query OR CAST(t.rank.rankId AS string) LIKE :query OR CAST(t.degree.degreeId AS string) LIKE :query OR CAST(t.department.departmentId AS string) LIKE :query OR t.phone LIKE :query or t.email LIKE :query";
         return session.createQuery(hql, Teacher.class)
                       .setParameter("query", "%" + query + "%")
                       .list();

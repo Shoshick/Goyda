@@ -146,33 +146,33 @@ public class StudentUI {
         String gradeBook = scanner.nextLine();
     
         try {
-            studentService.deleteStudent(gradeBook); // Вызов метода из Service
+            studentService.deleteStudent(gradeBook); 
             System.out.println("Студент успешно удален.");
         } catch (RuntimeException e) {
-            System.out.println("Ошибка: " + e.getMessage());  // Вывод ошибки без стека
+            System.out.println("Ошибка: " + e.getMessage());  
         }
     
-        ConsoleUtils.waitForEnter(); // Ожидание нажатия Enter перед возвратом в меню
+        ConsoleUtils.waitForEnter(); 
     }
     
 
     private void searchStudent() {
-        System.out.print("Введите поисковый запрос: ");
-        String searchTerm = scanner.nextLine();
-        try {
-            List<Student> students = studentService.searchStudents(searchTerm);
-            if (students.isEmpty()) {
-                System.out.println("Студенты не найдены по запросу: " + searchTerm);
-                ConsoleUtils.waitForEnter();
-            } else {
-                students.forEach(System.out::println);
-                ConsoleUtils.waitForEnter();
+        System.out.print("Введите ключевое слово для поиска: ");
+        String query = scanner.nextLine();
+
+        List<Student> results = studentService.searchStudents(query);
+        if (results.isEmpty()) {
+            System.out.println("Студенты не найдены.");
+            ConsoleUtils.waitForEnter();
+        } else {
+            System.out.println("=== Результаты поиска ===");
+            for (Student student : results) {
+                System.out.println(student);
             }
-        } catch (Exception e) {
-            System.out.println("Ошибка при поиске студентов: " + e.getMessage());
             ConsoleUtils.waitForEnter();
         }
     }
+
 
     private Long getValidatedLong() {
         while (true) {

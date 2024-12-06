@@ -36,7 +36,7 @@ public class DegreeUI {
             System.out.print("Ваш выбор: ");
 
             int choice = scanner.nextInt();
-            scanner.nextLine();  // очистка буфера
+            scanner.nextLine();  
 
             switch (choice) {
                 case 1:
@@ -82,7 +82,7 @@ public class DegreeUI {
     private void viewDegreeById() {
         System.out.print("Введите ID степени: ");
         Long id = scanner.nextLong();
-        scanner.nextLine();  // очистка буфера
+        scanner.nextLine();  
         Degree degree = degreeService.getDegreeById(id);
         if (degree != null) {
             System.out.println(degree);
@@ -106,7 +106,7 @@ public class DegreeUI {
     private void updateDegree() {
         System.out.print("Введите ID степени для обновления: ");
         Long id = scanner.nextLong();
-        scanner.nextLine();  // очистка буфера
+        scanner.nextLine();  
         Degree degree = degreeService.getDegreeById(id);
         if (degree != null) {
             System.out.print("Введите новое название степени: ");
@@ -124,17 +124,17 @@ public class DegreeUI {
     private void deleteDegree() {
         System.out.print("Введите ID степени для удаления: ");
         Long id = scanner.nextLong();
-        scanner.nextLine(); // Очистка буфера
+        scanner.nextLine(); 
         
         try {
-            degreeService.deleteDegree(id); // Вызов метода Service
+            degreeService.deleteDegree(id); 
             System.out.println("Степень успешно удалена.");
         } catch (RuntimeException e) {
-            // Обработка ошибок с выводом сообщения без стека
+            
             System.out.println("Ошибка: " + e.getMessage());
         }
     
-        ConsoleUtils.waitForEnter(); // Ожидание перед возвратом в меню
+        ConsoleUtils.waitForEnter(); 
     }
     
     

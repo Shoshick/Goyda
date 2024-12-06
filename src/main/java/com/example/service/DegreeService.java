@@ -51,9 +51,9 @@ public class DegreeService {
     
     public void deleteDegree(Long id) {
         try {
-            degreeDao.delete(id); // Вызов метода Dao
+            degreeDao.delete(id); 
         } catch (RuntimeException e) {
-            // Переименовываем сообщение для пользователя, если нужно
+            
             if (e.getMessage().contains("степень используется")) {
                 throw new RuntimeException("Удаление невозможно: данная степень связана с другими записями.");
             }

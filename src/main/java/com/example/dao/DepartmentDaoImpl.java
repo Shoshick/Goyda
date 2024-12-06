@@ -21,7 +21,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            session.merge(department); // Используем merge для сохранения или обновления сущности
+            session.merge(department); 
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
@@ -32,7 +32,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
     @Override
     public Department getById(Long id) {
         try (Session session = sessionFactory.openSession()) {
-            return session.get(Department.class, id); // Используем get для загрузки по ID
+            return session.get(Department.class, id); 
         } catch (Exception e) {
             throw new RuntimeException("Ошибка при получении департамента по ID", e);
         }
@@ -43,7 +43,7 @@ public class DepartmentDaoImpl implements DepartmentDao {
         Transaction transaction = null;
         try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
-            session.merge(department); // Используем merge для обновления
+            session.merge(department); 
             transaction.commit();
         } catch (Exception e) {
             if (transaction != null) transaction.rollback();
@@ -58,7 +58,7 @@ public void delete(Long id) {
         transaction = session.beginTransaction();
         Department department = session.get(Department.class, id);
         if (department != null) {
-            session.remove(department); // Удаление сущности
+            session.remove(department); 
         }
         transaction.commit();
     } catch (org.hibernate.exception.ConstraintViolationException e) {
@@ -81,7 +81,7 @@ public void delete(Long id) {
         try (Session session = sessionFactory.openSession()) {
             String hql = "FROM Department d WHERE d.department LIKE :searchTerm";
             Query<Department> query = session.createQuery(hql, Department.class);
-            query.setParameter("searchTerm", "%" + searchTerm + "%"); // Добавляем поддержку частичного поиска
+            query.setParameter("searchTerm", "%" + searchTerm + "%"); 
             return query.list();
         } catch (Exception e) {
             throw new RuntimeException("Ошибка при поиске департаментов", e);
@@ -93,7 +93,7 @@ public void delete(Long id) {
         try (Session session = sessionFactory.openSession()) {
             String hql = "FROM Department";
             Query<Department> query = session.createQuery(hql, Department.class);
-            return query.list(); // Возвращаем список всех департаментов
+            return query.list(); 
         } catch (Exception e) {
             throw new RuntimeException("Ошибка при получении всех департаментов", e);
         }

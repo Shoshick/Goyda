@@ -31,7 +31,7 @@ public class Teacher {
     @Column(name = "email", length = 100)
     private String email;
 
-    // Геттеры и сеттеры
+    
 
     public String getTeacherCode() {
         return teacherCode;

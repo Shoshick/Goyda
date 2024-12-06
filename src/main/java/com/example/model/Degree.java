@@ -8,22 +8,22 @@ public class Degree {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "degree_id")  // Обновлено имя столбца на degree_id
-    private Long degreeId;  // Переименовано поле на degreeId
+    @Column(name = "degree_id")  
+    private Long degreeId;  
 
     @Column(nullable = false, unique = true)
     private String degree;
 
-    // Конструктор без параметров (требуется Hibernate)
+    
     public Degree() {
     }
 
-    // Новый конструктор с Long
+    
     public Degree(Long degreeId) {
         this.degreeId = degreeId;
     }
 
-    // Геттеры и сеттеры
+    
     public Long getDegreeId() {
         return degreeId;
     }

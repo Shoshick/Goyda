@@ -17,21 +17,21 @@ public class Main {
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
         
-        // Получаем SessionFactory через HibernateUtil
+        
         SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
-        // Создаем сервисы для каждой таблицы
+        
         RankService rankService = new RankService(sessionFactory);
         DegreeService degreeService = new DegreeService(sessionFactory);
         DepartmentService departmentService = new DepartmentService(sessionFactory);
         FacultyService facultyService = new FacultyService(sessionFactory);
         GroupService groupService = new GroupService(sessionFactory);
         StudentService studentService = new StudentService(sessionFactory);
-        GradeService gradeService = new GradeService(sessionFactory);  // Сервис для Grade
-        TeacherService teacherService = new TeacherService(sessionFactory);  // Сервис для Teacher
-        ThesisService thesisService = new ThesisService(sessionFactory);  // Сервис для Thesis
+        GradeService gradeService = new GradeService(sessionFactory);  
+        TeacherService teacherService = new TeacherService(sessionFactory);  
+        ThesisService thesisService = new ThesisService(sessionFactory);  
 
-        // Главное меню
+        
         while (running) {
             ConsoleUtils.clearScreen();
             System.out.println("Выберите таблицу для работы:");
@@ -41,54 +41,55 @@ public class Main {
             System.out.println("4. Faculty");
             System.out.println("5. Group");
             System.out.println("6. Student");
-            System.out.println("7. Grade");  // Добавлено меню для Grade
-            System.out.println("8. Teacher"); // Добавлено меню для Teacher
-            System.out.println("9. Thesis");  // Добавлено меню для Thesis
+            System.out.println("7. Grade");  
+            System.out.println("8. Teacher"); 
+            System.out.println("9. Thesis");  
             System.out.println("0. Выход");
             System.out.print("Ваш выбор: ");
 
-            int choice = scanner.nextInt();
-            scanner.nextLine();  // Очищаем буфер после nextInt()
+                int choice = scanner.nextInt();
+                scanner.nextLine();  
 
-            switch (choice) {
-                case 1:
-                    displayRankMenu(scanner, rankService);  // Вызов метода для Rank
-                    break;
-                case 2:
-                    displayDegreeMenu(scanner, degreeService);  // Вызов метода для Degree
-                    break;
-                case 3:
-                    displayDepartmentMenu(scanner, departmentService);  // Вызов метода для Department
-                    break;
-                case 4:
-                    displayFacultyMenu(scanner, facultyService);  // Вызов метода для Faculty
-                    break;
-                case 5:
-                    displayGroupMenu(scanner, groupService);  // Вызов метода для Group
-                    break;
-                case 6:
-                    displayStudentMenu(scanner, studentService);  // Вызов метода для Student
-                    break;
-                case 7:
-                    displayGradeMenu(scanner, gradeService);  // Вызов метода для Grade
-                    break;
-                case 8:
-                    displayTeacherMenu(scanner, teacherService);  // Вызов метода для Teacher
-                    break;
-                case 9:
-                    displayThesisMenu(scanner, thesisService);  // Вызов метода для Thesis
-                    break;
-                case 0:
-                    System.out.println("Выход из программы.");
-                    running = false;
-                    break;
-                default:
-                    System.out.println("Неверный выбор. Попробуйте снова.");
+                switch (choice) {
+                    case 1:
+                        displayRankMenu(scanner, rankService);  
+                        break;
+                    case 2:
+                        displayDegreeMenu(scanner, degreeService);  
+                        break;
+                    case 3:
+                        displayDepartmentMenu(scanner, departmentService);  
+                        break;
+                    case 4:
+                        displayFacultyMenu(scanner, facultyService);  
+                        break;
+                    case 5:
+                        displayGroupMenu(scanner, groupService);  
+                        break;
+                    case 6:
+                        displayStudentMenu(scanner, studentService);  
+                        break;
+                    case 7:
+                        displayGradeMenu(scanner, gradeService);  
+                        break;
+                    case 8:
+                        displayTeacherMenu(scanner, teacherService);  
+                        break;
+                    case 9:
+                        displayThesisMenu(scanner, thesisService);  
+                        break;
+                    case 0:
+                        System.out.println("Выход из программы.");
+                        running = false;
+                        break;
+                    default:
+                        System.out.println("Неверный выбор. Попробуйте снова.");
+                        ConsoleUtils.waitForEnter(); 
+                }
             }
-        }
 
-        scanner.close(); // Закрываем сканер
-        HibernateUtil.shutdown(); // Закрытие SessionFactory
+        scanner.close(); 
+        HibernateUtil.shutdown(); 
     }
 
     public static void displayRankMenu(Scanner scanner, RankService rankService) {
@@ -123,17 +124,17 @@ public class Main {
     }
 
     public static void displayGradeMenu(Scanner scanner, GradeService gradeService) {
-        GradeUI gradeUI = new GradeUI(gradeService);  // Создаем UI для Grade
-        gradeUI.showMenu();  // Вызов метода для Grade
+        GradeUI gradeUI = new GradeUI(gradeService);  
+        gradeUI.showMenu();  
     }
 
     public static void displayTeacherMenu(Scanner scanner, TeacherService teacherService) {
         TeacherUI teacherUI = new TeacherUI(teacherService);
-        teacherUI.showMenu();  // Вызов меню для Teacher
+        teacherUI.showMenu();  
     }
 
     public static void displayThesisMenu(Scanner scanner, ThesisService thesisService) {
         ThesisUI thesisUI = new ThesisUI(thesisService);
-        thesisUI.showMenu();  // Вызов меню для Thesis
+        thesisUI.showMenu();  
     }
 }

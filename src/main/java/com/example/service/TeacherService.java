@@ -61,7 +61,7 @@ public class TeacherService {
 
     public void deleteTeacher(String teacherCode) {
         try {
-            teacherDao.delete(teacherCode);  // Вызов метода из DAO
+            teacherDao.delete(teacherCode);  
         } catch (RuntimeException e) {
             if (e.getMessage().contains("учитель используется в других записях")) {
                 throw new RuntimeException("Удаление невозможно: данный учитель связан с другими записями.");

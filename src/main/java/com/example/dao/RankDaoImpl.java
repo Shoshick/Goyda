@@ -69,11 +69,11 @@ public class RankDaoImpl implements RankDao {
             transaction = session.beginTransaction();
             Rank rank = session.get(Rank.class, id);
             if (rank != null) {
-                session.remove(rank);  // Удаление сущности
+                session.remove(rank);  
             } else {
                 throw new RuntimeException("Ранг с данным ID не найден.");
             }
-            transaction.commit();  // Фиксация транзакции
+            transaction.commit();  
         } catch (org.hibernate.exception.ConstraintViolationException e) {
             if (transaction != null) transaction.rollback();
             throw new RuntimeException("Удаление невозможно: ранг используется в других записях.", e);

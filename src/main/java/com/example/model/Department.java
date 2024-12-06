@@ -8,22 +8,22 @@ public class Department {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "department_id")  // Используем department_id вместо id
+    @Column(name = "department_id")  
     private Long departmentId;
 
     @Column(nullable = false, unique = true)
     private String department;
 
-    // Конструктор без параметров (требуется Hibernate)
+    
     public Department() {
     }
 
-    // Новый конструктор с Long
+    
     public Department(Long departmentId) {
         this.departmentId = departmentId;
     }
 
-    // Геттеры и сеттеры
+    
     public Long getDepartmentId() {
         return departmentId;
     }

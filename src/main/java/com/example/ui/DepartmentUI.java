@@ -32,7 +32,7 @@ public class DepartmentUI {
             System.out.print("Ваш выбор: ");
 
             int choice = scanner.nextInt();
-            scanner.nextLine();  // Очистка буфера
+            scanner.nextLine();  
 
             switch (choice) {
                 case 1:
@@ -77,7 +77,7 @@ public class DepartmentUI {
     private void viewDepartmentById() {
         System.out.print("Введите ID департамента: ");
         Long id = scanner.nextLong();
-        scanner.nextLine();  // Очистка буфера
+        scanner.nextLine();  
         Department department = departmentService.getDepartmentById(id);
         if (department != null) {
             System.out.println(department);
@@ -92,7 +92,7 @@ public class DepartmentUI {
         System.out.print("Введите название департамента: ");
         String departmentName = scanner.nextLine();
         Department department = new Department();
-        department.setDepartment(departmentName);  // Изменено
+        department.setDepartment(departmentName);  
         departmentService.addDepartment(department);
         System.out.println("Департамент добавлен.");
         ConsoleUtils.waitForEnter();
@@ -101,7 +101,7 @@ public class DepartmentUI {
     private void updateDepartment() {
         System.out.print("Введите ID департамента для обновления: ");
         Long id = scanner.nextLong();
-        scanner.nextLine(); // Очистка буфера
+        scanner.nextLine(); 
         Department department = departmentService.getDepartmentById(id);
         if (department != null) {
             System.out.print("Введите новое название департамента: ");
@@ -119,17 +119,17 @@ public class DepartmentUI {
     private void deleteDepartment() {
         System.out.print("Введите ID департамента для удаления: ");
         Long id = scanner.nextLong();
-        scanner.nextLine(); // Очистка буфера
+        scanner.nextLine(); 
         
         try {
-            departmentService.deleteDepartment(id); // Вызов метода Service
+            departmentService.deleteDepartment(id); 
             System.out.println("Департамент успешно удалён.");
         } catch (RuntimeException e) {
-            // Обработка ошибок с выводом сообщения без стека
+            
             System.out.println("Ошибка: " + e.getMessage());
         }
     
-        ConsoleUtils.waitForEnter(); // Ожидание перед возвратом в меню
+        ConsoleUtils.waitForEnter(); 
     }
     
     private void searchDepartment() {
